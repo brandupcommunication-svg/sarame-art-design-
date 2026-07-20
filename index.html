@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sarame Art Design — Pièces uniques en bois précieux d'Amazonie, sculptées à la main à Kourou, Guyane française.">
+  <meta property="og:title" content="Sarame Art Design — Le bois intérieur">
+  <meta property="og:description" content="Pièces uniques en bois précieux d'Amazonie, sculptées à la main selon la tradition Saramaca.">
+  <title>Sarame Art Design — Le bois intérieur</title>
+
+  <!-- FRAUNCES (display sculpté variable) + GEIST (sans serif moderne) + GEIST MONO (labels techniques) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═════════════════════════════════════════════
+       SARAME · V3 — Gallery Night
+       DA : Sombre architectural · Encre / Os / Rouille
+       Type : Fraunces (display) + Geist (body) + Geist Mono (labels)
+       ═════════════════════════════════════════════ */
+
+    :root {
+      /* — Palette gallery night — */
+      --ink:        #0E0D0B;   /* encre profonde */
+      --ink-2:      #14120F;   /* encre élevée */
+      --ink-3:      #1C1915;   /* surface card */
+      --bone:       #EDE6D6;   /* texte os */
+      --bone-2:     #C8BFAB;   /* texte secondaire */
+      --bone-3:     #6B6353;   /* texte muted */
+      --rust:       #D9764A;   /* accent rouille */
+      --rust-d:     #B85F35;   /* rouille foncée */
+      --rust-soft:  rgba(217,118,74,.12);
+      --rust-bdr:   rgba(217,118,74,.22);
+      --line:       rgba(237,230,214,.08);
+      --line-2:     rgba(237,230,214,.14);
+      --wa:         #25D366;
+
+      /* — Geometry — */
+      --r-sm: 2px;
+      --r:    6px;
+      --r-lg: 12px;
+
+      /* — Motion tokens — */
+      --ease:    cubic-bezier(.16,1,.3,1);
+      --ease-2:  cubic-bezier(.65,0,.35,1);
+      --spring:  cubic-bezier(.34,1.56,.64,1);
+      --d-fast:  180ms;
+      --d-base:  280ms;
+      --d-slow:  600ms;
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{
+      background:var(--ink);
+      color:var(--bone);
+      font-family:'Geist',system-ui,sans-serif;
+      font-weight:300;
+      line-height:1.65;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* Display — Fraunces variable, "carved" feel */
+    h1,h2,h3,h4,.display{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 30;
+      font-weight:300;
+      line-height:1.02;
+      letter-spacing:-.02em;
+    }
+    h1 em,h2 em,h3 em,.display em{
+      font-style:italic;
+      font-variation-settings:"opsz" 144,"SOFT" 70;
+    }
+
+    /* Labels — Geist Mono techy/atelier */
+    .mono{
+      font-family:'Geist Mono',monospace;
+      font-weight:400;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      font-size:.7rem;
+    }
+
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;font-family:inherit}
+    img{max-width:100%;display:block}
+
+    /* ── Skip link ── */
+    .skip{
+      position:absolute;top:-100px;left:16px;
+      background:var(--rust);color:var(--ink);
+      padding:10px 16px;border-radius:var(--r);z-index:9999;
+      font-family:'Geist Mono',monospace;font-size:.75rem;
+      transition:top .2s;
+    }
+    .skip:focus{top:16px}
+
+    /* ── Grain overlay subtle ── */
+    body::after{
+      content:'';position:fixed;inset:0;z-index:9000;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity:.04;mix-blend-mode:overlay;
+    }
+
+    /* ── Scroll progress bar (top) ── */
+    .progress{
+      position:fixed;top:0;left:0;height:2px;
+      background:var(--rust);
+      transform-origin:left center;transform:scaleX(0);
+      z-index:9500;transition:transform 120ms linear;
+    }
+
+    /* ══════════════════════════════
+       NAV
+       ══════════════════════════════ */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:500;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:24px 40px;
+      transition:padding var(--d-base) var(--ease),
+                 background var(--d-base) var(--ease),
+                 border-color var(--d-base) var(--ease);
+      border-bottom:1px solid transparent;
+    }
+    nav.scrolled{
+      background:rgba(14,13,11,.75);
+      backdrop-filter:blur(20px) saturate(150%);
+      -webkit-backdrop-filter:blur(20px) saturate(150%);
+      padding:14px 40px;
+      border-color:var(--line);
+    }
+    .logo{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 12,"SOFT" 50;
+      font-weight:400;font-size:1.05rem;
+      letter-spacing:-.01em;
+      display:flex;align-items:baseline;gap:6px;
+    }
+    .logo .glyph{color:var(--rust)}
+    .logo .mono{font-size:.65rem;color:var(--bone-3);letter-spacing:.15em;margin-left:8px}
+
+    .nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+    .nav-link{
+      font-family:'Geist Mono',monospace;
+      font-size:.72rem;font-weight:400;letter-spacing:.05em;
+      color:var(--bone-2);transition:color var(--d-fast);
+      position:relative;
+    }
+    .nav-link::before{
+      content:'';position:absolute;bottom:-6px;left:0;width:0;height:1px;
+      background:var(--rust);transition:width var(--d-base) var(--ease);
+    }
+    .nav-link:hover{color:var(--bone)}
+    .nav-link:hover::before{width:100%}
+
+    .nav-cta{
+      background:var(--bone);color:var(--ink);
+      padding:10px 18px;border-radius:var(--r);border:none;
+      font-family:'Geist Mono',monospace;font-size:.7rem;
+      letter-spacing:.05em;font-weight:500;
+      transition:background var(--d-fast),transform var(--d-fast);
+    }
+    .nav-cta:hover{background:var(--rust);color:var(--ink);transform:translateY(-1px)}
+
+    /* Hamburger */
+    .hbg{
+      display:none;flex-direction:column;gap:5px;
+      background:none;border:none;padding:4px;z-index:600;
+    }
+    .hbg b{display:block;width:20px;height:1.5px;background:var(--bone);transition:all var(--d-fast)}
+
+    .mob{
+      display:none;position:fixed;inset:0;z-index:450;
+      background:rgba(14,13,11,.97);
+      backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+      flex-direction:column;align-items:center;justify-content:center;gap:32px;
+    }
+    .mob.open{display:flex}
+    .mob a{
+      font-family:'Fraunces',serif;font-variation-settings:"opsz" 144,"SOFT" 50;
+      font-size:2.4rem;font-weight:300;color:var(--bone);
+      transition:color var(--d-fast);
+    }
+    .mob a:hover{color:var(--rust)}
+    .mob-x{
+      position:absolute;top:24px;right:40px;
+      background:none;border:none;color:var(--bone-3);font-size:1.3rem;
+    }
+
+    /* ══════════════════════════════
+       HERO — Editorial split
+       ══════════════════════════════ */
+    .hero{
+      min-height:100svh;
+      display:grid;grid-template-columns:1.1fr 1fr;
+      position:relative;overflow:hidden;
+    }
+    .hero-divider{
+      position:absolute;left:55%;top:0;bottom:0;width:1px;
+      background:var(--line);z-index:2;
+    }
+
+    .hero-l{
+      display:flex;flex-direction:column;justify-content:center;
+      padding:140px 80px 80px;position:relative;z-index:3;
+    }
+    .hero-meta{
+      display:flex;align-items:center;gap:18px;
+      color:var(--bone-3);margin-bottom:48px;
+    }
+    .hero-meta::after{
+      content:'';flex:1;height:1px;background:var(--line);
+      max-width:120px;
+    }
+    .hero-meta b{color:var(--rust);font-weight:400}
+
+    .hero-h{
+      font-size:clamp(3.8rem,8vw,8rem);
+      font-variation-settings:"opsz" 144,"SOFT" 20,"wght" 300;
+      color:var(--bone);margin-bottom:0;
+    }
+    .hero-h em{
+      display:block;
+      color:var(--rust);
+      font-size:clamp(3.4rem,7vw,7rem);
+      font-variation-settings:"opsz" 144,"SOFT" 80,"wght" 300;
+    }
+
+    .hero-tag{
+      margin-top:32px;padding-left:18px;
+      border-left:1px solid var(--rust-bdr);
+      max-width:380px;
+    }
+    .hero-tag p{
+      font-family:'Fraunces',serif;font-style:italic;
+      font-variation-settings:"opsz" 24;
+      font-size:1.1rem;color:var(--bone-2);font-weight:300;
+      line-height:1.5;
+    }
+
+    .hero-desc{
+      margin-top:40px;max-width:420px;
+      font-size:.95rem;color:var(--bone-2);line-height:1.75;
+    }
+
+    .hero-ctas{display:flex;gap:14px;margin-top:48px;flex-wrap:wrap}
+
+    /* Magnetic button base */
+    .btn{
+      position:relative;display:inline-flex;align-items:center;gap:10px;
+      padding:14px 26px;border-radius:var(--r);border:none;cursor:pointer;
+      font-family:'Geist Mono',monospace;font-size:.72rem;
+      letter-spacing:.06em;font-weight:500;
+      transition:transform 250ms var(--spring),background var(--d-fast),color var(--d-fast),box-shadow var(--d-fast);
+      will-change:transform;
+    }
+    .btn:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+    .btn-primary{background:var(--rust);color:var(--ink)}
+    .btn-primary:hover{background:var(--rust-d);box-shadow:0 10px 30px rgba(217,118,74,.3)}
+    .btn-ghost{
+      background:transparent;color:var(--bone);
+      border:1px solid var(--line-2);
+    }
+    .btn-ghost:hover{border-color:var(--bone-2);background:rgba(237,230,214,.04)}
+    .btn-arrow{
+      display:inline-block;transition:transform var(--d-base) var(--ease);
+    }
+    .btn:hover .btn-arrow{transform:translateX(4px)}
+
+    /* Hero right — Cœur d'Amazonie photo */
+    .hero-r{
+      position:relative;display:flex;align-items:center;justify-content:center;
+      overflow:hidden;background:var(--ink);
+    }
+    /* Ambient rouille glow behind the sculpture */
+    .hero-r::before{
+      content:'';position:absolute;inset:0;z-index:1;
+      background:
+        radial-gradient(ellipse at 50% 55%, rgba(217,118,74,.28) 0%, rgba(139,60,20,.08) 30%, transparent 65%),
+        radial-gradient(ellipse at 70% 85%, rgba(30,18,10,.7) 0%, transparent 60%);
+      animation:halo 8s ease-in-out infinite alternate;
+    }
+    @keyframes halo{
+      from{opacity:.85;transform:scale(1)}
+      to{opacity:1;transform:scale(1.05)}
+    }
+    /* Vignette + horizontal fade to blend into the ink page */
+    .hero-r::after{
+      content:'';position:absolute;inset:0;z-index:3;pointer-events:none;
+      background:
+        linear-gradient(90deg, var(--ink) 0%, transparent 12%, transparent 88%, var(--ink) 100%),
+        linear-gradient(180deg, var(--ink) 0%, transparent 15%, transparent 78%, var(--ink) 100%);
+    }
+    .hero-heart{
+      position:relative;z-index:2;
+      width:min(620px,92%);
+      aspect-ratio:3/4;
+      display:flex;align-items:center;justify-content:center;
+      animation:heart-in 1600ms var(--ease) both;
+    }
+    .hero-heart img{
+      width:100%;height:100%;object-fit:contain;
+      filter:drop-shadow(0 40px 80px rgba(217,118,74,.32));
+      animation:heart-glow 7s ease-in-out infinite;
+    }
+    @keyframes heart-in{
+      from{opacity:0;transform:scale(1.04) translateY(20px)}
+      to{opacity:1;transform:none}
+    }
+    @keyframes heart-glow{
+      0%,100%{filter:drop-shadow(0 40px 80px rgba(217,118,74,.32)) brightness(1)}
+      50%{filter:drop-shadow(0 50px 100px rgba(217,118,74,.45)) brightness(1.06)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .hero-heart,.hero-heart img,.hero-r::before{animation:none}
+    }
+    /* Piece badge — top left */
+    .hero-r-tag{
+      position:absolute;top:32px;left:40px;z-index:4;
+      display:inline-flex;align-items:center;gap:10px;
+      padding:8px 14px;border-radius:100px;
+      background:rgba(14,13,11,.55);
+      backdrop-filter:blur(14px) saturate(160%);
+      -webkit-backdrop-filter:blur(14px) saturate(160%);
+      border:1px solid var(--rust-bdr);
+      color:var(--bone);
+      font-family:'Geist Mono',monospace;font-size:.68rem;
+      letter-spacing:.05em;text-transform:uppercase;
+    }
+    .hero-r-tag::before{
+      content:'';width:6px;height:6px;border-radius:50%;
+      background:var(--rust);box-shadow:0 0 12px var(--rust);
+      animation:pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.55;transform:scale(1.3)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .hero-r-tag::before{animation:none}
+    }
+    .hero-r-meta{
+      position:absolute;bottom:32px;left:40px;right:40px;
+      display:flex;justify-content:space-between;
+      color:var(--bone-3);z-index:3;
+    }
+    .hero-r-meta span{display:block;color:var(--bone-2);margin-top:4px}
+
+    /* Scroll cue */
+    .scroll-cue{
+      position:absolute;bottom:32px;left:80px;z-index:3;
+      display:flex;align-items:center;gap:14px;color:var(--bone-3);
+    }
+    .scroll-cue::before{
+      content:'';width:48px;height:1px;
+      background:linear-gradient(to right,var(--rust),transparent);
+    }
+
+    /* ══════════════════════════════
+       MARQUEE
+       ══════════════════════════════ */
+    .marquee{
+      position:relative;z-index:10;
+      background:var(--ink-2);
+      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+      height:56px;overflow:hidden;
+      display:flex;align-items:center;
+    }
+    .marquee-track{
+      display:flex;animation:scroll 38s linear infinite;
+      width:max-content;
+    }
+    .marquee:hover .marquee-track{animation-play-state:paused}
+    @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .marquee-item{
+      display:inline-flex;align-items:center;gap:14px;
+      padding:0 40px;white-space:nowrap;color:var(--bone-2);
+    }
+    .marquee-item b{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 24,"SOFT" 60;
+      font-size:1.2rem;font-style:italic;font-weight:300;color:var(--rust);
+    }
+    .marquee-item::after{
+      content:'';display:block;width:4px;height:4px;border-radius:50%;
+      background:var(--line-2);margin-left:32px;
+    }
+
+    /* ══════════════════════════════
+       SECTION BASE
+       ══════════════════════════════ */
+    .sec{padding:140px 80px;position:relative}
+    .inner{max-width:1280px;margin:0 auto}
+
+    .sec-lbl{
+      display:inline-flex;align-items:center;gap:10px;
+      color:var(--rust);margin-bottom:24px;
+    }
+    .sec-lbl::before{
+      content:'';display:block;width:20px;height:1px;background:var(--rust);
+    }
+
+    .sec-h{
+      font-size:clamp(2.4rem,4.5vw,4rem);
+      color:var(--bone);margin-bottom:20px;
+      font-variation-settings:"opsz" 144,"SOFT" 30,"wght" 300;
+    }
+    .sec-h em{
+      color:var(--rust);
+      font-variation-settings:"opsz" 144,"SOFT" 90,"wght" 300;
+    }
+
+    /* — Scroll animations — */
+    .rise{
+      opacity:0;transform:translateY(40px);
+      transition:opacity 800ms var(--ease),transform 800ms var(--ease);
+    }
+    .rise.in{opacity:1;transform:none}
+    .rise[data-delay="1"]{transition-delay:80ms}
+    .rise[data-delay="2"]{transition-delay:160ms}
+    .rise[data-delay="3"]{transition-delay:240ms}
+    .rise[data-delay="4"]{transition-delay:320ms}
+
+    /* Text word stagger */
+    .reveal-words .word{
+      display:inline-block;opacity:0;transform:translateY(20px);
+      transition:opacity 700ms var(--ease),transform 700ms var(--ease);
+    }
+    .reveal-words.in .word{opacity:1;transform:none}
+    .reveal-words.in .word:nth-child(1){transition-delay:60ms}
+    .reveal-words.in .word:nth-child(2){transition-delay:120ms}
+    .reveal-words.in .word:nth-child(3){transition-delay:180ms}
+    .reveal-words.in .word:nth-child(4){transition-delay:240ms}
+    .reveal-words.in .word:nth-child(5){transition-delay:300ms}
+    .reveal-words.in .word:nth-child(6){transition-delay:360ms}
+
+    @media (prefers-reduced-motion: reduce){
+      .rise,.reveal-words .word,.marquee-track{
+        animation:none!important;opacity:1!important;transform:none!important;transition:none!important;
+      }
+      .progress{display:none}
+    }
+
+    /* ══════════════════════════════
+       HISTOIRE — Editorial 2-col
+       ══════════════════════════════ */
+    #histoire{background:var(--ink)}
+    .hist{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:120px;align-items:start;
+    }
+    .hist-l p{
+      font-size:1.02rem;color:var(--bone-2);line-height:1.85;margin-bottom:24px;
+    }
+    .hist-l p:first-of-type{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 36,"SOFT" 20;
+      font-size:1.25rem;color:var(--bone);font-weight:300;
+      line-height:1.6;
+    }
+    .hist-l strong{color:var(--bone);font-weight:400}
+
+    .hist-stats{
+      display:grid;grid-template-columns:1fr 1fr;gap:1px;
+      background:var(--line);
+      border:1px solid var(--line);
+    }
+    .stat{
+      background:var(--ink-2);padding:36px 28px;
+      transition:background var(--d-base);
+    }
+    .stat:hover{background:var(--ink-3)}
+    .stat-n{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 40;
+      font-size:3.4rem;font-weight:300;color:var(--rust);
+      line-height:1;margin-bottom:10px;
+    }
+    .stat-n em{
+      font-style:italic;
+      font-variation-settings:"opsz" 144,"SOFT" 90;
+    }
+    .stat-l{color:var(--bone-2);font-size:.85rem;line-height:1.5}
+
+    /* ══════════════════════════════
+       ESSENCES — Tabbed architectural grid
+       ══════════════════════════════ */
+    #essences{
+      background:var(--ink-2);
+      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    }
+    .ess-head{
+      display:flex;justify-content:space-between;align-items:flex-end;
+      gap:48px;margin-bottom:56px;flex-wrap:wrap;
+    }
+    .ess-head .l{max-width:640px}
+    .ess-head .r{color:var(--bone-3);max-width:320px;text-align:right}
+
+    /* — Tab navigation — */
+    .ess-tabs{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+      margin-bottom:40px;
+    }
+    .ess-tab{
+      background:none;border:none;cursor:pointer;
+      padding:22px 28px;text-align:left;
+      display:grid;grid-template-columns:auto 1fr auto;
+      align-items:center;gap:16px;
+      border-right:1px solid var(--line);
+      color:var(--bone-3);
+      position:relative;
+      transition:color var(--d-base) var(--ease),background var(--d-base) var(--ease);
+    }
+    .ess-tab:last-child{border-right:none}
+    .ess-tab:hover{color:var(--bone-2);background:rgba(237,230,214,.02)}
+    .ess-tab.active{color:var(--bone);background:var(--ink-3)}
+    .ess-tab.active::after{
+      content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;
+      background:var(--rust);
+      animation:tabIn 500ms var(--ease);
+    }
+    @keyframes tabIn{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1)}}
+    .ess-tab .num{
+      color:var(--rust);font-family:'Geist Mono',monospace;
+      font-size:.7rem;letter-spacing:.05em;
+    }
+    .ess-tab .nm{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 40,"wght" 300;
+      font-size:1.4rem;line-height:1;
+    }
+    .ess-tab.active .nm{font-variation-settings:"opsz" 144,"SOFT" 60,"wght" 300}
+    .ess-tab .cnt{
+      font-family:'Geist Mono',monospace;font-size:.65rem;
+      letter-spacing:.05em;color:var(--bone-3);
+    }
+    .ess-tab.active .cnt{color:var(--rust)}
+
+    /* — Panel content — */
+    .ess-cat-desc{
+      color:var(--bone-2);margin-bottom:28px;max-width:680px;
+      font-size:.88rem;letter-spacing:.04em;
+    }
+    .ess-panel{display:none}
+    .ess-panel.active{display:block;animation:panelIn 500ms var(--ease)}
+    @keyframes panelIn{
+      from{opacity:0;transform:translateY(12px)}
+      to{opacity:1;transform:none}
+    }
+
+    .ess-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:1px;background:var(--line);
+      border:1px solid var(--line);
+    }
+    .ess{
+      background:var(--ink-2);padding:40px 32px;
+      position:relative;transition:background var(--d-base);
+      cursor:default;overflow:hidden;
+    }
+    .ess::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:var(--ess-c,var(--rust));
+      transform:scaleX(0);transform-origin:left;
+      transition:transform var(--d-slow) var(--ease);
+    }
+    .ess:hover{background:var(--ink-3)}
+    .ess:hover::before{transform:scaleX(1)}
+    .ess-latin{
+      font-family:'Fraunces',serif;font-style:italic;
+      font-variation-settings:"opsz" 24;
+      color:var(--bone-3);font-size:.82rem;
+      margin-bottom:14px;
+    }
+
+    .ess-no{
+      color:var(--bone-3);margin-bottom:32px;
+      display:flex;justify-content:space-between;
+    }
+    .ess-name{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 40;
+      font-size:2.4rem;font-weight:300;color:var(--bone);
+      margin-bottom:8px;line-height:1;
+    }
+    .ess-name em{
+      font-style:italic;color:var(--rust);
+      font-variation-settings:"opsz" 144,"SOFT" 90;
+    }
+    .ess-origin{
+      color:var(--bone-3);margin-bottom:24px;
+    }
+    .ess-desc{font-size:.92rem;color:var(--bone-2);line-height:1.8}
+    .ess-swatch{
+      display:flex;margin-top:28px;height:24px;border-radius:var(--r-sm);overflow:hidden;
+    }
+    .ess-swatch span{flex:1;display:block}
+
+    /* ══════════════════════════════
+       CRÉATIONS — Gallery cards
+       ══════════════════════════════ */
+    #creations{background:var(--ink)}
+    .creat-head{
+      display:flex;align-items:flex-end;justify-content:space-between;
+      gap:32px;margin-bottom:64px;flex-wrap:wrap;
+    }
+    .creat-grid{
+      display:grid;grid-template-columns:repeat(6,1fr);
+      gap:24px;
+    }
+    .crd{
+      position:relative;cursor:pointer;
+      grid-column:span 2;
+      background:var(--ink-3);
+      border:1px solid var(--line);
+      border-radius:var(--r);overflow:hidden;
+      transition:border-color var(--d-base),transform var(--d-base) var(--ease);
+    }
+    .crd:nth-child(1){grid-column:span 6}       /* Cœur — hero card, full width */
+    .crd:nth-child(2){grid-column:span 3}
+    .crd:nth-child(3){grid-column:span 3}
+    .crd:nth-child(4){grid-column:span 2}
+    .crd:nth-child(5){grid-column:span 2}
+    .crd:nth-child(6){grid-column:span 2}
+    .crd:nth-child(7){grid-column:span 3}
+    .crd:nth-child(8){grid-column:span 3}
+
+    /* Photo card variant — real image instead of gradient */
+    .crd-vis-photo{
+      background:var(--ink);
+      aspect-ratio:16/9;
+    }
+    .crd-vis-photo img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform 600ms var(--ease),filter var(--d-base);
+    }
+    .crd:hover .crd-vis-photo img{transform:scale(1.03);filter:brightness(1.08)}
+    /* Cœur featured card — tall hero */
+    .crd-hero .crd-vis-photo{
+      aspect-ratio:21/9;
+      background:radial-gradient(ellipse at 50% 60%, rgba(217,118,74,.2) 0%, transparent 55%), var(--ink);
+    }
+    .crd-hero .crd-vis-photo img{
+      object-fit:contain;padding:24px 0;
+      filter:drop-shadow(0 20px 50px rgba(217,118,74,.25));
+    }
+    .crd-hero:hover .crd-vis-photo img{
+      filter:drop-shadow(0 24px 60px rgba(217,118,74,.4)) brightness(1.06);
+      transform:scale(1.02);
+    }
+    .crd-hero .crd-body{padding:32px}
+    .crd-hero .crd-title{font-size:2.2rem}
+    .crd-hero .crd-desc{font-size:.95rem;max-width:640px}
+
+    /* Glow cursor effect */
+    .crd::before{
+      content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+      background:radial-gradient(400px circle at var(--mx,50%) var(--my,50%),
+        rgba(217,118,74,.12), transparent 40%);
+      opacity:0;transition:opacity var(--d-base);
+    }
+    .crd:hover::before{opacity:1}
+    .crd:hover{
+      border-color:var(--rust-bdr);
+      transform:translateY(-4px);
+    }
+
+    .crd-vis{
+      position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .crd:nth-child(1) .crd-vis,
+    .crd:nth-child(2) .crd-vis{aspect-ratio:16/9}
+
+    /* Wood gradient placeholders — varied richness */
+    .wood-1{background:
+      radial-gradient(ellipse at 30% 40%, rgba(217,118,74,.25) 0%, transparent 55%),
+      linear-gradient(135deg, #2a160a 0%, #4a2410 40%, #1a0e08 100%);}
+    .wood-2{background:
+      radial-gradient(ellipse at 70% 30%, rgba(184,73,44,.3) 0%, transparent 55%),
+      linear-gradient(135deg, #1d1a16 0%, #3a1e12 50%, #0f0d0a 100%);}
+    .wood-3{background:
+      radial-gradient(ellipse at 50% 50%, rgba(217,118,74,.18) 0%, transparent 60%),
+      linear-gradient(180deg, #150f0a 0%, #2e1d10 100%);}
+    .wood-4{background:
+      radial-gradient(ellipse at 40% 60%, rgba(184,73,44,.22) 0%, transparent 50%),
+      linear-gradient(135deg, #1a0f08 0%, #4a2a14 45%, #1e1208 100%);}
+    .wood-5{background:
+      radial-gradient(ellipse at 60% 40%, rgba(217,118,74,.2) 0%, transparent 55%),
+      linear-gradient(45deg, #14110d 0%, #3a2412 50%, #1a1208 100%);}
+    .wood-6{background:
+      radial-gradient(ellipse at 30% 70%, rgba(184,73,44,.18) 0%, transparent 50%),
+      linear-gradient(135deg, #1a1108 0%, #381f10 40%, #150e08 100%);}
+    .wood-7{background:
+      radial-gradient(ellipse at 50% 30%, rgba(217,118,74,.22) 0%, transparent 55%),
+      linear-gradient(180deg, #1e140c 0%, #2c1810 100%);}
+
+    .crd-vis svg{opacity:.5;transition:opacity var(--d-base),transform var(--d-base) var(--ease)}
+    .crd:hover .crd-vis svg{opacity:.75;transform:scale(1.05)}
+
+    .crd-body{padding:24px;position:relative;z-index:2}
+    .crd-head{
+      display:flex;justify-content:space-between;align-items:flex-start;
+      margin-bottom:14px;
+    }
+    .crd-no{color:var(--bone-3)}
+    .crd-essence{color:var(--rust)}
+    .crd-title{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 40;
+      font-size:1.6rem;font-weight:300;color:var(--bone);
+      margin-bottom:10px;line-height:1.15;
+    }
+    .crd-desc{font-size:.88rem;color:var(--bone-2);line-height:1.7;margin-bottom:18px}
+    .crd-cta{
+      display:inline-flex;align-items:center;gap:8px;
+      color:var(--rust);transition:gap var(--d-base);
+    }
+    .crd:hover .crd-cta{gap:14px}
+
+    /* ══════════════════════════════
+       PROCESS — Numbered editorial
+       ══════════════════════════════ */
+    #process{background:var(--ink-2);border-top:1px solid var(--line)}
+    .proc-grid{
+      display:grid;grid-template-columns:1fr 1.4fr;gap:80px;
+    }
+    .proc-l{position:sticky;top:120px;align-self:start}
+    .proc-l p{
+      font-size:1rem;color:var(--bone-2);line-height:1.85;margin-bottom:32px;max-width:380px;
+    }
+    .proc-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+    .proc-step{
+      background:var(--ink-2);padding:36px 32px;
+      display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:flex-start;
+      transition:background var(--d-base);
+    }
+    .proc-step:hover{background:var(--ink-3)}
+    .proc-n{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 60;
+      font-size:2.6rem;font-style:italic;font-weight:300;color:var(--rust);
+      line-height:1;min-width:60px;
+    }
+    .proc-c h3{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 40;
+      font-size:1.4rem;font-weight:300;color:var(--bone);
+      margin-bottom:8px;line-height:1.2;
+    }
+    .proc-c p{font-size:.92rem;color:var(--bone-2);line-height:1.7}
+
+    /* ══════════════════════════════
+       CONTACT
+       ══════════════════════════════ */
+    #contact{background:var(--ink);position:relative;overflow:hidden}
+    #contact::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at 50% 0%, rgba(217,118,74,.1) 0%, transparent 55%);
+      pointer-events:none;
+    }
+    .cont{
+      display:grid;grid-template-columns:1fr 1.1fr;gap:80px;
+      position:relative;z-index:2;
+    }
+    .cont-l p{font-size:1rem;color:var(--bone-2);line-height:1.85;margin-bottom:36px;max-width:420px}
+
+    .wa-block{
+      background:linear-gradient(135deg, rgba(37,211,102,.06), rgba(37,211,102,.02));
+      border:1px solid rgba(37,211,102,.2);
+      border-radius:var(--r-lg);padding:32px;
+      transition:border-color var(--d-base);
+    }
+    .wa-block:hover{border-color:rgba(37,211,102,.4)}
+    .wa-icon{
+      width:44px;height:44px;border-radius:50%;
+      background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:20px;
+    }
+    .wa-title{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 40;
+      font-size:1.5rem;font-weight:300;color:var(--bone);
+      margin-bottom:12px;line-height:1.2;
+    }
+    .wa-text{font-size:.9rem;color:var(--bone-2);line-height:1.75;margin-bottom:22px}
+    .btn-wa{
+      background:var(--wa);color:#fff;
+      padding:13px 24px;border-radius:var(--r);border:none;
+      font-family:'Geist Mono',monospace;font-size:.7rem;font-weight:500;
+      letter-spacing:.06em;text-transform:uppercase;
+      display:inline-flex;align-items:center;gap:10px;
+      transition:all var(--d-base) var(--spring);text-decoration:none;
+    }
+    .btn-wa:hover{background:#1fba58;transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,211,102,.3)}
+
+    /* Contact details */
+    .cont-details{
+      margin-top:36px;display:flex;flex-direction:column;gap:1px;background:var(--line);
+      border:1px solid var(--line);
+    }
+    .cont-det{
+      background:var(--ink-2);padding:20px 24px;
+      display:flex;justify-content:space-between;align-items:center;
+      transition:background var(--d-base);
+    }
+    .cont-det:hover{background:var(--ink-3)}
+    .cont-det span{color:var(--bone-3)}
+    .cont-det a,.cont-det b{color:var(--bone);font-weight:400}
+
+    /* Form */
+    .cont-form{
+      background:var(--ink-2);border:1px solid var(--line);
+      border-radius:var(--r-lg);padding:40px;
+    }
+    .form-h{margin-bottom:32px}
+    .form-h h3{
+      font-family:'Fraunces',serif;
+      font-variation-settings:"opsz" 144,"SOFT" 40;
+      font-size:1.6rem;font-weight:300;color:var(--bone);
+      margin-bottom:8px;line-height:1.2;
+    }
+    .form-h p{font-size:.85rem;color:var(--bone-3)}
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+    .fld{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+    .fld label{
+      color:var(--bone-3);
+    }
+    .fld label .req{color:var(--rust)}
+    .fld input,.fld textarea,.fld select{
+      background:rgba(237,230,214,.03);
+      border:1px solid var(--line-2);
+      border-radius:var(--r);padding:12px 14px;
+      color:var(--bone);font-family:'Geist',sans-serif;
+      font-size:.92rem;font-weight:300;
+      width:100%;
+      transition:border-color var(--d-fast),background var(--d-fast),box-shadow var(--d-fast);
+    }
+    .fld input::placeholder,.fld textarea::placeholder{color:var(--bone-3);opacity:.7}
+    .fld input:focus,.fld textarea:focus,.fld select:focus{
+      outline:none;border-color:var(--rust);
+      background:rgba(217,118,74,.04);
+      box-shadow:0 0 0 3px rgba(217,118,74,.08);
+    }
+    .fld textarea{resize:vertical;min-height:120px}
+    .fld select{appearance:none;cursor:pointer}
+
+    .form-msg{
+      display:none;background:rgba(37,211,102,.08);
+      border:1px solid rgba(37,211,102,.25);border-radius:var(--r);
+      padding:12px 16px;color:var(--wa);font-size:.85rem;margin-top:12px;
+    }
+    .form-msg.show{display:block}
+
+    /* ══════════════════════════════
+       FOOTER
+       ══════════════════════════════ */
+    footer{
+      background:var(--ink-2);
+      border-top:1px solid var(--line);
+      padding:80px 40px 40px;
+    }
+    .ft-inner{max-width:1280px;margin:0 auto}
+    .ft-grid{
+      display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+      gap:60px;margin-bottom:64px;
+    }
+    .ft-brand .logo{margin-bottom:24px}
+    .ft-brand p{font-size:.9rem;color:var(--bone-2);line-height:1.75;max-width:340px}
+
+    .ft-col h4{
+      font-family:'Geist Mono',monospace;font-size:.7rem;
+      letter-spacing:.06em;text-transform:uppercase;color:var(--rust);
+      margin-bottom:18px;font-weight:500;
+    }
+    .ft-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .ft-col a{font-size:.9rem;color:var(--bone-2);transition:color var(--d-fast)}
+    .ft-col a:hover{color:var(--bone)}
+
+    .ft-bottom{
+      padding-top:36px;border-top:1px solid var(--line);
+      display:flex;justify-content:space-between;align-items:center;
+      flex-wrap:wrap;gap:12px;color:var(--bone-3);
+    }
+
+    /* ══════════════════════════════
+       FLOATING WHATSAPP
+       ══════════════════════════════ */
+    .wa-float{
+      position:fixed;bottom:32px;right:32px;z-index:400;
+      width:52px;height:52px;border-radius:50%;
+      background:var(--wa);border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 6px 24px rgba(37,211,102,.4);
+      transition:transform var(--d-base) var(--spring),box-shadow var(--d-base);
+      text-decoration:none;
+    }
+    .wa-float:hover{transform:scale(1.12);box-shadow:0 8px 32px rgba(37,211,102,.55)}
+    .wa-float:focus-visible{outline:2px solid var(--wa);outline-offset:3px}
+
+    /* ══════════════════════════════
+       RESPONSIVE
+       ══════════════════════════════ */
+    @media(max-width:1100px){
+      .hero{grid-template-columns:1fr}
+      .hero-r{display:none}
+      .hero-divider{display:none}
+      .hero-l{padding:120px 40px 80px}
+      .hist,.proc-grid,.cont{grid-template-columns:1fr;gap:48px}
+      .proc-l{position:static}
+      .creat-grid{grid-template-columns:repeat(4,1fr)}
+      .crd,.crd:nth-child(n){grid-column:span 2}
+      .ess-grid{grid-template-columns:1fr}
+      .ft-grid{grid-template-columns:1fr 1fr;gap:40px}
+      .sec{padding:100px 40px}
+      nav,nav.scrolled{padding:18px 40px}
+      footer{padding:60px 40px 32px}
+    }
+    @media(max-width:720px){
+      .nav-links,.nav-cta{display:none}
+      .hbg{display:flex}
+      .hero-l{padding:100px 24px 60px}
+      .scroll-cue{left:24px}
+      .sec{padding:80px 24px}
+      .creat-grid{grid-template-columns:1fr;gap:16px}
+      .crd,.crd:nth-child(n){grid-column:1}
+      .row{grid-template-columns:1fr}
+      .cont-form{padding:28px 20px}
+      .ft-grid{grid-template-columns:1fr;gap:32px}
+      .ft-bottom{flex-direction:column;align-items:flex-start}
+      nav,nav.scrolled{padding:14px 24px}
+      footer{padding:48px 24px 32px}
+      .hist-stats{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip">Aller au contenu</a>
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Navigation principale">
+  <a href="#hero" class="logo">
+    <span>Sarame<span class="glyph">·</span>Art</span>
+    <span class="mono">Kourou · GF</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#histoire" class="nav-link">Histoire</a></li>
+    <li><a href="#essences" class="nav-link">Essences</a></li>
+    <li><a href="#creations" class="nav-link">Créations</a></li>
+    <li><a href="#process" class="nav-link">Processus</a></li>
+    <li><a href="#contact"><button class="nav-cta">Nous contacter</button></a></li>
+  </ul>
+  <button class="hbg" id="hbg" aria-label="Menu" aria-expanded="false">
+    <b></b><b></b><b></b>
+  </button>
+</nav>
+
+<!-- MOBILE -->
+<div class="mob" id="mob" role="dialog" aria-label="Menu">
+  <button class="mob-x" id="mobX" aria-label="Fermer">✕</button>
+  <a href="#histoire">Histoire</a>
+  <a href="#essences">Essences</a>
+  <a href="#creations">Créations</a>
+  <a href="#process">Processus</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="hero" aria-label="Sarame Art Design">
+  <div class="hero-divider" aria-hidden="true"></div>
+
+  <div class="hero-l">
+    <div class="hero-meta mono rise">
+      <span><b>01</b> · Kourou</span>
+      <span>Guyane française</span>
+      <span>Art Saramaca</span>
+    </div>
+
+    <h1 class="hero-h reveal-words">
+      <span class="word">Le</span> <span class="word">bois</span>
+      <em><span class="word">intérieur</span></em>
+    </h1>
+
+    <div class="hero-tag rise" data-delay="2">
+      <p>L'harmonie dans votre demeure, sculptée<br>dans les bois précieux d'Amazonie.</p>
+    </div>
+
+    <p class="hero-desc rise" data-delay="3">
+      Atelier d'artisanat à Kourou. Pièces uniques en Amarante, Wacapou et Angélique, façonnées à la main selon la tradition Saramaca.
+    </p>
+
+    <div class="hero-ctas rise" data-delay="4">
+      <a href="#creations" class="btn btn-primary" data-magnetic>
+        Voir les créations <span class="btn-arrow">→</span>
+      </a>
+      <a href="#contact" class="btn btn-ghost" data-magnetic>
+        Commander sur mesure
+      </a>
+    </div>
+
+    <div class="scroll-cue mono">Défiler</div>
+  </div>
+
+  <!-- Hero right — Cœur d'Amazonie sculpture -->
+  <div class="hero-r">
+    <span class="hero-r-tag">Pièce vedette · N° 000</span>
+    <div class="hero-heart">
+      <img src="heart.png" alt="Cœur d'Amazonie — sculpture en Amarante illuminée" loading="eager" decoding="async">
+    </div>
+    <div class="hero-r-meta">
+      <div class="mono">Cœur d'Amazonie <span>Sculpture illuminée</span></div>
+      <div class="mono" style="text-align:right">Amarante · 2025 <span>Pièce unique</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-label="Engagements" role="region">
+  <div class="marquee-track" aria-hidden="true">
+    <span class="marquee-item mono">Fait à la main <b>100%</b></span>
+    <span class="marquee-item mono">Essences amazoniennes <b>3</b></span>
+    <span class="marquee-item mono">Pièces uniques <b>∞</b></span>
+    <span class="marquee-item mono">Délai de réponse <b>48h</b></span>
+    <span class="marquee-item mono">Sur devis uniquement <b>·</b></span>
+    <span class="marquee-item mono">Kourou Guyane <b>97310</b></span>
+    <span class="marquee-item mono">Fait à la main <b>100%</b></span>
+    <span class="marquee-item mono">Essences amazoniennes <b>3</b></span>
+    <span class="marquee-item mono">Pièces uniques <b>∞</b></span>
+    <span class="marquee-item mono">Délai de réponse <b>48h</b></span>
+    <span class="marquee-item mono">Sur devis uniquement <b>·</b></span>
+    <span class="marquee-item mono">Kourou Guyane <b>97310</b></span>
+  </div>
+</div>
+
+<!-- HISTOIRE -->
+<section class="sec" id="histoire" aria-labelledby="hist-h">
+  <div class="inner hist">
+    <div class="hist-l">
+      <div class="sec-lbl mono rise">02 · Notre histoire</div>
+      <h2 class="sec-h rise" id="hist-h" data-delay="1">
+        Un savoir-faire né<br>au cœur de <em>l'Amazonie</em>
+      </h2>
+      <div style="margin-top:32px" class="rise" data-delay="2">
+        <p>Sarame Art Design est né d'une passion pour l'artisanat Saramaca — l'une des traditions de sculpture sur bois les plus riches d'Amazonie.</p>
+        <p><strong>Chaque pièce est une œuvre à part entière</strong> : façonnée à la main, dans des bois précieux récoltés durablement en Guyane et au Suriname.</p>
+        <p>Nous ne fabriquons pas des meubles. Nous donnons vie à des histoires gravées dans la matière, transmettant un patrimoine vivant à travers chaque incision, chaque courbe, chaque grain révélé.</p>
+      </div>
+    </div>
+
+    <div class="hist-stats rise" data-delay="2">
+      <div class="stat">
+        <div class="stat-n">100<em>%</em></div>
+        <div class="stat-l mono">Fait à la main · Atelier Kourou</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">3</div>
+        <div class="stat-l mono">Essences précieuses d'Amazonie</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n"><em>∞</em></div>
+        <div class="stat-l mono">Pièces uniques · jamais reproduites</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">48<em>h</em></div>
+        <div class="stat-l mono">Délai de réponse garanti</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESSENCES -->
+<section class="sec" id="essences" aria-labelledby="ess-h">
+  <div class="inner">
+    <div class="ess-head">
+      <div class="l">
+        <div class="sec-lbl mono rise">03 · Essences</div>
+        <h2 class="sec-h rise" id="ess-h" data-delay="1">
+          Le bois d'Amazonie<br><em>en trois catégories</em>
+        </h2>
+      </div>
+      <div class="r mono rise" data-delay="2">
+        Sarame travaille exclusivement avec des essences récoltées en Guyane française et au Suriname, selon des critères stricts de durabilité.
+      </div>
+    </div>
+
+    <!-- Tab navigation -->
+    <div class="ess-tabs rise" data-delay="2" role="tablist" aria-label="Catégories de bois">
+      <button class="ess-tab active" role="tab" aria-selected="true" aria-controls="panel-massif" id="tab-massif" data-cat="massif">
+        <span class="num">I</span>
+        <span class="nm">Bois massif</span>
+        <span class="cnt">03</span>
+      </button>
+      <button class="ess-tab" role="tab" aria-selected="false" aria-controls="panel-precieux" id="tab-precieux" data-cat="precieux">
+        <span class="num">II</span>
+        <span class="nm">Bois précieux</span>
+        <span class="cnt">03</span>
+      </button>
+      <button class="ess-tab" role="tab" aria-selected="false" aria-controls="panel-tendre" id="tab-tendre" data-cat="tendre">
+        <span class="num">III</span>
+        <span class="nm">Bois tendre</span>
+        <span class="cnt">03</span>
+      </button>
+    </div>
+
+    <!-- PANEL 1 — MASSIF -->
+    <div class="ess-panel active" role="tabpanel" id="panel-massif" aria-labelledby="tab-massif" data-cat="massif">
+      <p class="ess-cat-desc">Bois denses et résistants — utilisés pour les structures porteuses, le mobilier d'envergure et les pièces exposées au climat tropical.</p>
+      <div class="ess-grid">
+        <div class="ess" style="--ess-c:#8B5028">
+          <div class="ess-no mono"><span>I.01</span> <span>Guyane</span></div>
+          <div class="ess-name">Wacapou</div>
+          <div class="ess-latin">Vouacapoua americana</div>
+          <div class="ess-origin mono">brun-doré · imputrescible</div>
+          <p class="ess-desc">Cœur de forêt guyanaise, le Wacapou résiste naturellement aux insectes et à l'humidité. Ses veines brunes sur fond or lui confèrent une noblesse rare.</p>
+          <div class="ess-swatch">
+            <span style="background:#1A0E07"></span>
+            <span style="background:#3A2010"></span>
+            <span style="background:#5A3018"></span>
+            <span style="background:#8B5028"></span>
+          </div>
+        </div>
+
+        <div class="ess" style="--ess-c:#A8702C">
+          <div class="ess-no mono"><span>I.02</span> <span>Guyane</span></div>
+          <div class="ess-name">Angélique</div>
+          <div class="ess-latin">Dicorynia guianensis</div>
+          <div class="ess-origin mono">ambre chaud · grain fin</div>
+          <p class="ess-desc">Teintes dorées-ambrées qui se patinent avec le temps. Résistance exceptionnelle et grain soyeux : l'essence-phare de l'ébénisterie guyanaise.</p>
+          <div class="ess-swatch">
+            <span style="background:#241808"></span>
+            <span style="background:#4A2E12"></span>
+            <span style="background:#7A4C1C"></span>
+            <span style="background:#A8702C"></span>
+          </div>
+        </div>
+
+        <div class="ess" style="--ess-c:#7A2C18">
+          <div class="ess-no mono"><span>I.03</span> <span>Guyane</span></div>
+          <div class="ess-name">Wapa</div>
+          <div class="ess-latin">Eperua falcata</div>
+          <div class="ess-origin mono">rouge sombre · veiné</div>
+          <p class="ess-desc">Bois rouge profond aux veines marquées, le Wapa offre une structure robuste idéale pour les grandes pièces de mobilier et les éléments porteurs.</p>
+          <div class="ess-swatch">
+            <span style="background:#1C0E08"></span>
+            <span style="background:#3A1810"></span>
+            <span style="background:#5A2418"></span>
+            <span style="background:#7A2C18"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 2 — PRÉCIEUX -->
+    <div class="ess-panel" role="tabpanel" id="panel-precieux" aria-labelledby="tab-precieux" data-cat="precieux" hidden>
+      <p class="ess-cat-desc">Essences rares, à forte valeur esthétique et patrimoniale — réservées aux pièces d'exception, ornements et sculptures emblématiques.</p>
+      <div class="ess-grid">
+        <div class="ess" style="--ess-c:#9C3158">
+          <div class="ess-no mono"><span>II.01</span> <span>Amazonie</span></div>
+          <div class="ess-name">Amarante</div>
+          <div class="ess-latin">Peltogyne paniculata</div>
+          <div class="ess-origin mono">violet profond · ultra-dur</div>
+          <p class="ess-desc">Bois aux reflets violets profonds, l'Amarante est l'une des essences les plus recherchées d'Amérique du Sud. Sa dureté quasi-pierreuse lui confère une longévité hors du commun.</p>
+          <div class="ess-swatch">
+            <span style="background:#2E0F1F"></span>
+            <span style="background:#5A1B36"></span>
+            <span style="background:#7A2548"></span>
+            <span style="background:#9C3158"></span>
+          </div>
+        </div>
+
+        <div class="ess" style="--ess-c:#5C3018">
+          <div class="ess-no mono"><span>II.02</span> <span>Amazonie</span></div>
+          <div class="ess-name">Ipé</div>
+          <div class="ess-latin">Handroanthus serratifolius</div>
+          <div class="ess-origin mono">brun-noir · densité extrême</div>
+          <p class="ess-desc">Densité quasi-minérale, teinte brun très foncé qui tire vers le noir. L'Ipé est l'un des bois les plus durables au monde — réservé aux pièces d'apparat et aux ornements rares.</p>
+          <div class="ess-swatch">
+            <span style="background:#0F0805"></span>
+            <span style="background:#241208"></span>
+            <span style="background:#3E1F10"></span>
+            <span style="background:#5C3018"></span>
+          </div>
+        </div>
+
+        <div class="ess" style="--ess-c:#B85A2C">
+          <div class="ess-no mono"><span>II.03</span> <span>Amazonie</span></div>
+          <div class="ess-name">Acajou</div>
+          <div class="ess-latin">Swietenia macrophylla</div>
+          <div class="ess-origin mono">rouge profond · patiné</div>
+          <p class="ess-desc">Le plus noble des bois sud-américains. Teinte rouge profond qui se patine avec les années, grain régulier et brillance naturelle : référence absolue de l'ébénisterie d'art.</p>
+          <div class="ess-swatch">
+            <span style="background:#2A1108"></span>
+            <span style="background:#4B1F0E"></span>
+            <span style="background:#7E3018"></span>
+            <span style="background:#B85A2C"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 3 — TENDRE -->
+    <div class="ess-panel" role="tabpanel" id="panel-tendre" aria-labelledby="tab-tendre" data-cat="tendre" hidden>
+      <p class="ess-cat-desc">Bois souples et faciles à travailler — privilégiés pour la sculpture fine, les courbes amples et les motifs Saramaca détaillés.</p>
+      <div class="ess-grid">
+        <div class="ess" style="--ess-c:#B86040">
+          <div class="ess-no mono"><span>III.01</span> <span>Guyane</span></div>
+          <div class="ess-name">Cèdre de Guyane</div>
+          <div class="ess-latin">Cedrela odorata</div>
+          <div class="ess-origin mono">brun chaud · aromatique</div>
+          <p class="ess-desc">Bois aromatique aux teintes brun-rouge chaudes. Sa souplesse et son grain régulier en font l'allié idéal pour les motifs sculptés finement et les pièces d'intérieur.</p>
+          <div class="ess-swatch">
+            <span style="background:#2A1810"></span>
+            <span style="background:#553020"></span>
+            <span style="background:#7C4A30"></span>
+            <span style="background:#B86040"></span>
+          </div>
+        </div>
+
+        <div class="ess" style="--ess-c:#C89880">
+          <div class="ess-no mono"><span>III.02</span> <span>Suriname</span></div>
+          <div class="ess-name">Yayamadou</div>
+          <div class="ess-latin">Virola surinamensis</div>
+          <div class="ess-origin mono">rosé clair · souple</div>
+          <p class="ess-desc">Bois clair aux nuances rosées, le Yayamadou offre une souplesse remarquable. Tradition Saramaca : c'est l'essence privilégiée du travail sculpté à la main.</p>
+          <div class="ess-swatch">
+            <span style="background:#5A4030"></span>
+            <span style="background:#8B6850"></span>
+            <span style="background:#A88068"></span>
+            <span style="background:#C89880"></span>
+          </div>
+        </div>
+
+        <div class="ess" style="--ess-c:#D8C8AC">
+          <div class="ess-no mono"><span>III.03</span> <span>Guyane</span></div>
+          <div class="ess-name">Simarouba</div>
+          <div class="ess-latin">Simarouba amara</div>
+          <div class="ess-origin mono">crème · grain droit</div>
+          <p class="ess-desc">Bois crème au grain droit, doux au toucher. Sa stabilité dimensionnelle et sa clarté en font le candidat parfait pour les pièces aux courbes amples et les contrastes.</p>
+          <div class="ess-swatch">
+            <span style="background:#7A6850"></span>
+            <span style="background:#A89878"></span>
+            <span style="background:#C0AE8E"></span>
+            <span style="background:#D8C8AC"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRÉATIONS -->
+<section class="sec" id="creations" aria-labelledby="crt-h">
+  <div class="inner">
+    <div class="creat-head">
+      <div>
+        <div class="sec-lbl mono rise">04 · Créations</div>
+        <h2 class="sec-h rise" id="crt-h" data-delay="1">
+          Pièces d'exception,<br><em>sculptées à la main</em>
+        </h2>
+      </div>
+      <a href="#contact" class="btn btn-ghost rise" data-delay="2" data-magnetic>
+        Sur mesure <span class="btn-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="creat-grid">
+      <!-- Card 0 — Cœur d'Amazonie (featured hero, full width) -->
+      <article class="crd crd-hero rise" tabindex="0">
+        <div class="crd-vis crd-vis-photo">
+          <img src="heart.png" alt="Cœur d'Amazonie — sculpture illuminée en Amarante" loading="lazy" decoding="async">
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 000 · Pièce vedette</span>
+            <span class="crd-essence">Amarante · Bois flotté</span>
+          </div>
+          <h3 class="crd-title">Cœur d'Amazonie</h3>
+          <p class="crd-desc">Sculpture illuminée en Amarante violette, ajourée à la main de motifs Saramaca. Montée sur socle de bois flotté centenaire préservé dans son état brut. Éclairage intégré chaleureux — la pièce respire, prend vie, raconte l'âme du bois. Œuvre unique, non reproductible.</p>
+          <a href="#contact" class="crd-cta mono">Demander cette pièce <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
+      <!-- Card 1 - featured wide -->
+      <article class="crd rise glow-card" tabindex="0">
+        <div class="crd-vis wood-1">
+          <svg width="100" height="60" viewBox="0 0 100 60" fill="none">
+            <rect x="6" y="22" width="88" height="8" rx="3" stroke="#D9764A" stroke-opacity=".7" stroke-width="1.2"/>
+            <rect x="12" y="30" width="8" height="24" rx="2" stroke="#D9764A" stroke-opacity=".5" stroke-width="1"/>
+            <rect x="80" y="30" width="8" height="24" rx="2" stroke="#D9764A" stroke-opacity=".5" stroke-width="1"/>
+            <rect x="36" y="30" width="8" height="22" rx="2" stroke="#D9764A" stroke-opacity=".4" stroke-width=".8"/>
+            <rect x="56" y="30" width="8" height="22" rx="2" stroke="#D9764A" stroke-opacity=".4" stroke-width=".8"/>
+            <ellipse cx="50" cy="24" rx="32" ry="5" stroke="#D9764A" stroke-opacity=".25" stroke-width=".7"/>
+          </svg>
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 001</span>
+            <span class="crd-essence">Amarante</span>
+          </div>
+          <h3 class="crd-title">La Table Visionnaire</h3>
+          <p class="crd-desc">Plateau en Amarante brut, pieds sculptés à motifs géométriques Saramaca. Pièce unique, chaque veine raconte une histoire.</p>
+          <a href="#contact" class="crd-cta mono">Devis <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
+      <!-- Card 2 - featured wide -->
+      <article class="crd rise" data-delay="1" tabindex="0">
+        <div class="crd-vis wood-2">
+          <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
+            <path d="M30 6 C30 6 48 22 48 46 C48 66 30 72 30 72 C30 72 12 66 12 46 C12 22 30 6 30 6Z" stroke="#D9764A" stroke-opacity=".6" stroke-width="1.3" fill="none"/>
+            <path d="M30 16 C30 16 40 28 40 46 C40 60 30 64 30 64 C30 64 20 60 20 46 C20 28 30 16 30 16Z" stroke="#D9764A" stroke-opacity=".35" stroke-width=".8" fill="none"/>
+            <circle cx="30" cy="42" r="8" stroke="#D9764A" stroke-opacity=".55" stroke-width="1.1"/>
+            <circle cx="30" cy="42" r="3" fill="#D9764A" fill-opacity=".3"/>
+          </svg>
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 002</span>
+            <span class="crd-essence">Amarante</span>
+          </div>
+          <h3 class="crd-title">Sculpture Totem</h3>
+          <p class="crd-desc">Forme totémique en Amarante violette, inspirée des motifs ancestraux Saramaca. Sur commande uniquement.</p>
+          <a href="#contact" class="crd-cta mono">Devis <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
+      <!-- Card 3 - 2 cols -->
+      <article class="crd rise" tabindex="0">
+        <div class="crd-vis wood-3">
+          <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+            <rect x="4" y="10" width="72" height="36" rx="3" stroke="#D9764A" stroke-opacity=".55" stroke-width="1.3"/>
+            <rect x="12" y="46" width="12" height="12" rx="2" stroke="#D9764A" stroke-opacity=".5" stroke-width="1"/>
+            <rect x="56" y="46" width="12" height="12" rx="2" stroke="#D9764A" stroke-opacity=".5" stroke-width="1"/>
+            <rect x="14" y="16" width="22" height="24" rx="2" stroke="#D9764A" stroke-opacity=".3" stroke-width=".7"/>
+            <rect x="44" y="16" width="28" height="10" rx="2" stroke="#D9764A" stroke-opacity=".25" stroke-width=".6"/>
+            <rect x="44" y="28" width="28" height="6" rx="1.5" stroke="#D9764A" stroke-opacity=".22" stroke-width=".6"/>
+          </svg>
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 003</span>
+            <span class="crd-essence">Wacapou</span>
+          </div>
+          <h3 class="crd-title">Bureau Serpent</h3>
+          <p class="crd-desc">Plateau épousant la forme sinueuse d'un tronc de Wacapou centenaire.</p>
+          <a href="#contact" class="crd-cta mono">Devis <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="crd rise" data-delay="1" tabindex="0">
+        <div class="crd-vis wood-4">
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+            <path d="M36 6 L66 22 L66 50 L36 66 L6 50 L6 22 Z" stroke="#D9764A" stroke-opacity=".55" stroke-width="1.2"/>
+            <path d="M36 16 L54 26 L54 46 L36 56 L18 46 L18 26 Z" stroke="#D9764A" stroke-opacity=".35" stroke-width=".8"/>
+            <circle cx="36" cy="36" r="9" stroke="#D9764A" stroke-opacity=".5" stroke-width="1"/>
+            <circle cx="36" cy="36" r="3.5" fill="#D9764A" fill-opacity=".35"/>
+          </svg>
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 004</span>
+            <span class="crd-essence">Angélique</span>
+          </div>
+          <h3 class="crd-title">Miroir Géométrique</h3>
+          <p class="crd-desc">Cadre en Angélique de Guyane, motifs Saramaca sculptés à la main.</p>
+          <a href="#contact" class="crd-cta mono">Devis <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="crd rise" data-delay="2" tabindex="0">
+        <div class="crd-vis wood-5">
+          <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
+            <rect x="8" y="4" width="44" height="56" rx="4" stroke="#D9764A" stroke-opacity=".55" stroke-width="1.3"/>
+            <rect x="14" y="60" width="12" height="14" rx="2" stroke="#D9764A" stroke-opacity=".45" stroke-width="1"/>
+            <rect x="34" y="60" width="12" height="14" rx="2" stroke="#D9764A" stroke-opacity=".45" stroke-width="1"/>
+            <line x1="8" y1="20" x2="52" y2="20" stroke="#D9764A" stroke-opacity=".25" stroke-width=".7"/>
+            <line x1="8" y1="36" x2="52" y2="36" stroke="#D9764A" stroke-opacity=".25" stroke-width=".7"/>
+          </svg>
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 005</span>
+            <span class="crd-essence">Angélique</span>
+          </div>
+          <h3 class="crd-title">Table Fourmilière</h3>
+          <p class="crd-desc">Texture naturelle de fourmilière préservée dans la résine, sur plateau Angélique.</p>
+          <a href="#contact" class="crd-cta mono">Devis <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
+      <!-- Card 6 - wide -->
+      <article class="crd rise" tabindex="0">
+        <div class="crd-vis wood-6">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="30" stroke="#D9764A" stroke-opacity=".55" stroke-width="1.3"/>
+            <circle cx="40" cy="40" r="22" stroke="#D9764A" stroke-opacity=".4" stroke-width=".8"/>
+            <circle cx="40" cy="40" r="12" stroke="#D9764A" stroke-opacity=".5" stroke-width="1"/>
+            <circle cx="40" cy="40" r="4" fill="#D9764A" fill-opacity=".35"/>
+            <line x1="6" y1="40" x2="28" y2="40" stroke="#D9764A" stroke-opacity=".3" stroke-width=".6"/>
+            <line x1="52" y1="40" x2="74" y2="40" stroke="#D9764A" stroke-opacity=".3" stroke-width=".6"/>
+          </svg>
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 006</span>
+            <span class="crd-essence">Amarante</span>
+          </div>
+          <h3 class="crd-title">Bol Cérémoniel</h3>
+          <p class="crd-desc">Objet décoratif inspiré des cérémonies Saramaca, tourné à la main dans un bloc d'Amarante massif.</p>
+          <a href="#contact" class="crd-cta mono">Devis <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
+      <!-- Card 7 - wide -->
+      <article class="crd rise" data-delay="1" tabindex="0">
+        <div class="crd-vis wood-7">
+          <svg width="92" height="60" viewBox="0 0 92 60" fill="none">
+            <path d="M6 30 Q23 14 46 22 T86 30" stroke="#D9764A" stroke-opacity=".6" stroke-width="1.4" fill="none"/>
+            <path d="M6 38 Q23 22 46 30 T86 38" stroke="#D9764A" stroke-opacity=".35" stroke-width=".8" fill="none"/>
+            <circle cx="46" cy="26" r="3" fill="#D9764A" fill-opacity=".5"/>
+            <rect x="4" y="46" width="84" height="6" rx="2" stroke="#D9764A" stroke-opacity=".45" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="crd-body">
+          <div class="crd-head mono">
+            <span class="crd-no">N° 007</span>
+            <span class="crd-essence">Wacapou</span>
+          </div>
+          <h3 class="crd-title">Console Onde</h3>
+          <p class="crd-desc">Console murale aux courbes inspirées du fleuve Maroni. Plateau en Wacapou massif, profil ondoyant sculpté.</p>
+          <a href="#contact" class="crd-cta mono">Devis <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" id="process" aria-labelledby="proc-h">
+  <div class="inner proc-grid">
+    <div class="proc-l">
+      <div class="sec-lbl mono rise">05 · Processus</div>
+      <h2 class="sec-h rise" id="proc-h" data-delay="1">
+        De l'arbre<br>à <em>votre demeure</em>
+      </h2>
+      <p class="rise" data-delay="2">Chaque création naît d'un dialogue entre la nature, l'artisan et vous. Quatre étapes, transparentes, pour donner vie à une pièce unique.</p>
+      <a href="#contact" class="btn btn-primary rise" data-delay="3" data-magnetic>
+        Démarrer un projet <span class="btn-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="proc-list">
+      <div class="proc-step rise">
+        <div class="proc-n">01</div>
+        <div class="proc-c">
+          <h3>Dialogue</h3>
+          <p>Vous nous partagez votre vision, l'espace, l'usage. Nous explorons ensemble les possibilités. Conversation libre, sans engagement.</p>
+        </div>
+      </div>
+      <div class="proc-step rise" data-delay="1">
+        <div class="proc-n">02</div>
+        <div class="proc-c">
+          <h3>Sélection du bois</h3>
+          <p>Nous choisissons l'essence et la pièce de bois la plus adaptée — Amarante, Wacapou ou Angélique — selon le projet et la disponibilité.</p>
+        </div>
+      </div>
+      <div class="proc-step rise" data-delay="2">
+        <div class="proc-n">03</div>
+        <div class="proc-c">
+          <h3>Création artisanale</h3>
+          <p>Façonnage à la main dans notre atelier de Kourou, selon les techniques Saramaca. 3 à 8 semaines selon la complexité.</p>
+        </div>
+      </div>
+      <div class="proc-step rise" data-delay="3">
+        <div class="proc-n">04</div>
+        <div class="proc-c">
+          <h3>Livraison</h3>
+          <p>La pièce vous parvient soigneusement emballée, accompagnée de son certificat d'authenticité et numérotée à la main.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec" id="contact" aria-labelledby="cont-h">
+  <div class="inner cont">
+    <div class="cont-l rise">
+      <div class="sec-lbl mono">06 · Contact</div>
+      <h2 class="sec-h" id="cont-h">Parlons de<br><em>votre projet</em></h2>
+      <p>Chaque pièce commence par une conversation. Partagez votre vision — nous la sculpterons dans le bois le plus noble d'Amazonie.</p>
+
+      <div class="wa-block">
+        <div class="wa-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.5 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0 0 12 24c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.5zM12 22c-1.9 0-3.7-.5-5.3-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A10 10 0 0 1 2 12C2 6.5 6.5 2 12 2s10 4.5 10 10-4.5 10-10 10zm5.5-7.5c-.3-.1-1.8-.9-2.1-1-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.9 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 2-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/></svg>
+        </div>
+        <div class="wa-title">Réponse sous 24h via WhatsApp</div>
+        <p class="wa-text">Envoyez-nous une photo de votre espace, décrivez votre projet — on vous répond directement. C'est la façon la plus rapide d'engager la conversation.</p>
+        <a href="https://wa.me/594XXXXXXXXX?text=Bonjour%20Sarame%20Art%20Design%2C%20je%20souhaite%20commander%20une%20pi%C3%A8ce%20sur%20mesure." class="btn-wa" target="_blank" rel="noopener" data-magnetic>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.5 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0 0 12 24c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.5z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+
+      <div class="cont-details">
+        <div class="cont-det mono">
+          <span>Atelier</span>
+          <b>Kourou, Guyane française 97310</b>
+        </div>
+        <div class="cont-det mono">
+          <span>Email</span>
+          <a href="mailto:sarameartdesign888@gmail.com">sarameartdesign888@gmail.com</a>
+        </div>
+        <div class="cont-det mono">
+          <span>Instagram</span>
+          <a href="https://instagram.com/sarame.art.design" target="_blank" rel="noopener">@sarame.art.design</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="rise" data-delay="1">
+      <form class="cont-form" id="form" novalidate>
+        <div class="form-h">
+          <h3>Formulaire de contact</h3>
+          <p class="mono">Réponse garantie sous 48h</p>
+        </div>
+        <div class="row">
+          <div class="fld">
+            <label class="mono" for="prenom">Prénom <span class="req">*</span></label>
+            <input type="text" id="prenom" name="prenom" placeholder="Jean" required autocomplete="given-name">
+          </div>
+          <div class="fld">
+            <label class="mono" for="email">Email <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="jean@exemple.com" required autocomplete="email">
+          </div>
+        </div>
+        <div class="fld">
+          <label class="mono" for="tel">Téléphone (optionnel)</label>
+          <input type="tel" id="tel" name="tel" placeholder="+594 XXX XXX XXX" autocomplete="tel">
+        </div>
+        <div class="fld">
+          <label class="mono" for="type">Type de création <span class="req">*</span></label>
+          <select id="type" name="type" required>
+            <option value="" style="background:#14120F">Sélectionnez...</option>
+            <option value="table" style="background:#14120F">Table / Bureau</option>
+            <option value="sculpture" style="background:#14120F">Sculpture</option>
+            <option value="chaise" style="background:#14120F">Chaise / Siège</option>
+            <option value="objet" style="background:#14120F">Objet décoratif</option>
+            <option value="autre" style="background:#14120F">Autre</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label class="mono" for="msg">Votre projet <span class="req">*</span></label>
+          <textarea id="msg" name="msg" placeholder="Décrivez votre idée, les dimensions souhaitées, l'essence souhaitée..." required rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:16px" data-magnetic>
+          Envoyer le message <span class="btn-arrow">→</span>
+        </button>
+        <div class="form-msg" id="formMsg" role="alert" aria-live="polite">
+          ✓ Message envoyé — Nous vous répondrons sous 48h.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="#hero" class="logo">
+          <span>Sarame<span class="glyph">·</span>Art</span>
+          <span class="mono">Kourou · GF</span>
+        </a>
+        <p>Atelier d'artisanat de luxe à Kourou, Guyane française. Pièces uniques en bois précieux amazoniens, inspirées de l'art Saramaca.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Naviguer</h4>
+        <ul>
+          <li><a href="#histoire">Histoire</a></li>
+          <li><a href="#essences">Essences</a></li>
+          <li><a href="#creations">Créations</a></li>
+          <li><a href="#process">Processus</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:sarameartdesign888@gmail.com">Email</a></li>
+          <li><a href="https://wa.me/594XXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://instagram.com/sarame.art.design" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Légal</h4>
+        <ul>
+          <li><span>SIRET</span></li>
+          <li><span style="color:var(--bone-3);font-size:.85rem">938 205 812 00010</span></li>
+          <li><span>Kourou 97310</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom mono">
+      <span>© 2025 Sarame Art Design — Tous droits réservés</span>
+      <span>Fait avec soin en Guyane française</span>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/594XXXXXXXXX?text=Bonjour%20Sarame%2C%20je%20voudrais%20des%20informations%20sur%20vos%20cr%C3%A9ations." class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp" data-magnetic>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.5 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0 0 12 24c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.5zM12 22c-1.9 0-3.7-.5-5.3-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A10 10 0 0 1 2 12C2 6.5 6.5 2 12 2s10 4.5 10 10-4.5 10-10 10zm5.5-7.5c-.3-.1-1.8-.9-2.1-1-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.9 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 2-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/></svg>
+</a>
+
+<script>
+(() => {
+  'use strict';
+  const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Wrap hero h1 words for stagger reveal ──
+  document.querySelectorAll('.reveal-words').forEach(el => {
+    if (el.dataset.processed) return;
+    el.dataset.processed = '1';
+    // already wrapped manually in markup
+  });
+
+  // ── Nav scroll state + progress ──
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('progress');
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 40);
+        const max = document.documentElement.scrollHeight - innerHeight;
+        const pct = max > 0 ? y / max : 0;
+        progress.style.transform = `scaleX(${pct})`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // ── Mobile menu ──
+  const hbg = document.getElementById('hbg');
+  const mob = document.getElementById('mob');
+  const mobX = document.getElementById('mobX');
+  const openMenu = () => { mob.classList.add('open'); hbg.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
+  const closeMenu = () => { mob.classList.remove('open'); hbg.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+  hbg.addEventListener('click', openMenu);
+  mobX.addEventListener('click', closeMenu);
+  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  // ── Scroll reveal (IntersectionObserver) ──
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.rise, .reveal-words').forEach(el => io.observe(el));
+
+  // Trigger hero immediately
+  addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.hero .rise, .hero .reveal-words').forEach(el => el.classList.add('in'));
+    }, 60);
+  });
+
+  // ── Magnetic buttons (subtle) ──
+  if (!prefersReduced && matchMedia('(pointer:fine)').matches) {
+    document.querySelectorAll('[data-magnetic]').forEach(btn => {
+      const strength = 0.25;
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - (r.left + r.width / 2);
+        const y = e.clientY - (r.top + r.height / 2);
+        btn.style.transform = `translate(${x*strength}px, ${y*strength}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+  }
+
+  // ── Glow cursor on cards ──
+  if (!prefersReduced && matchMedia('(pointer:fine)').matches) {
+    document.querySelectorAll('.crd').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const mx = ((e.clientX - r.left) / r.width) * 100;
+        const my = ((e.clientY - r.top) / r.height) * 100;
+        card.style.setProperty('--mx', mx + '%');
+        card.style.setProperty('--my', my + '%');
+      });
+    });
+  }
+
+  // ── Essences tabs ──
+  const essTabs = Array.from(document.querySelectorAll('.ess-tab'));
+  const essPanels = Array.from(document.querySelectorAll('.ess-panel'));
+  function activateTab(idx) {
+    essTabs.forEach((t, i) => {
+      const on = i === idx;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on);
+      t.setAttribute('tabindex', on ? '0' : '-1');
+    });
+    essPanels.forEach((p, i) => {
+      const on = i === idx;
+      p.classList.toggle('active', on);
+      if (on) p.removeAttribute('hidden'); else p.setAttribute('hidden', '');
+    });
+  }
+  essTabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => activateTab(i));
+    tab.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const next = e.key === 'ArrowRight' ? (i + 1) % essTabs.length : (i - 1 + essTabs.length) % essTabs.length;
+        activateTab(next);
+        essTabs[next].focus();
+      }
+    });
+  });
+
+  // ── Contact form ──
+  const form = document.getElementById('form');
+  const msg = document.getElementById('formMsg');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const d = new FormData(form);
+    const body = `Pr%C3%A9nom: ${encodeURIComponent(d.get('prenom'))}%0AEmail: ${encodeURIComponent(d.get('email'))}%0AT%C3%A9l: ${encodeURIComponent(d.get('tel')||'—')}%0AType: ${encodeURIComponent(d.get('type'))}%0A%0AProjet:%0A${encodeURIComponent(d.get('msg'))}`;
+    open(`mailto:sarameartdesign888@gmail.com?subject=Devis%20%E2%80%94%20Sarame%20Art%20Design&body=${body}`, '_blank');
+    msg.classList.add('show');
+    form.reset();
+    setTimeout(() => msg.classList.remove('show'), 7000);
+  });
+})();
+</script>
+</body>
+</html>
