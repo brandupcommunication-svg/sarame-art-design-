@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Atelier d'ébénisterie d'art en Guyane. Pièces uniques en bois précieux inspirées de l'artisanat traditionnel Saramaca. Le bois intérieur, l'harmonie dans votre demeure.">
+  <meta property="og:title" content="Sarame Art Design">
+  <meta property="og:description" content="Pièces uniques en bois précieux — ode à l'artisanat traditionnel Saramaca, Guyane.">
+  <meta property="og:type" content="website">
+  <title>Sarame Art Design — Ébénisterie d'art & artisanat Saramaca | Guyane</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════════════
+       SARAME · Standalone build (complet)
+       Toutes animations Next.js portées en JS pur :
+       · SapTrail (goutte dorée scroll-driven, 6 branches, 14 sparkles)
+       · SapBeams (5 canaux gradient animés sur Pillars)
+       · FanGallery (7 slots, elastic entrance, hover push)
+       · Sap-gold-text shimmer
+       · Reveal on scroll (ease [0.22, 1, 0.36, 1])
+       · Marquee partenaires
+       ═══════════════════════════════════════════════ */
+    :root {
+      --background: 27 19 13;
+      --foreground: 242 230 210;
+      --primary: 222 201 159;
+      --primary-foreground: 38 26 16;
+      --secondary: 146 102 64;
+      --accent: 205 176 124;
+      --accent-foreground: 38 26 16;
+      --muted: 58 42 28;
+      --muted-foreground: 192 174 146;
+      --card: 36 25 16;
+      --card-foreground: 242 230 210;
+      --border: 64 47 30;
+      --ring: 222 201 159;
+
+      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border-color: rgb(var(--border)); }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: rgb(var(--background));
+      color: rgb(var(--foreground));
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ── Skip link ── */
+    .skip {
+      position: absolute; top: -60px; left: 16px; z-index: 999;
+      background: rgb(var(--primary)); color: rgb(var(--primary-foreground));
+      padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: .85rem;
+      transition: top .2s;
+    }
+    .skip:focus { top: 16px; }
+
+    /* ── Global background textures ── */
+    .sarame-motif {
+      position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background-image: url("./public/textures/sarame-motif.svg");
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+      opacity: .12; mix-blend-mode: screen;
+      -webkit-mask-image: radial-gradient(135% 115% at 50% 16%, rgba(0,0,0,.9), rgba(0,0,0,.35) 64%, rgba(0,0,0,.12));
+      mask-image: radial-gradient(135% 115% at 50% 16%, rgba(0,0,0,.9), rgba(0,0,0,.35) 64%, rgba(0,0,0,.12));
+    }
+    .bark-ambiance {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: url("./public/textures/bark.svg");
+      background-size: 600px 760px; background-repeat: repeat;
+      opacity: .5; mix-blend-mode: soft-light;
+      -webkit-mask-image:
+        radial-gradient(120% 60% at 50% -8%, rgba(0,0,0,.85), transparent 62%),
+        radial-gradient(46% 40% at 6% 92%, rgba(0,0,0,.6), transparent 60%),
+        radial-gradient(46% 40% at 96% 50%, rgba(0,0,0,.5), transparent 60%);
+      mask-image:
+        radial-gradient(120% 60% at 50% -8%, rgba(0,0,0,.85), transparent 62%),
+        radial-gradient(46% 40% at 6% 92%, rgba(0,0,0,.6), transparent 60%),
+        radial-gradient(46% 40% at 96% 50%, rgba(0,0,0,.5), transparent 60%);
+    }
+    .wood-grain { position: relative; }
+    .wood-grain::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      opacity: .05; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ══════════════════════════════
+       SAP TRAIL — plein écran, scroll-driven
+       ══════════════════════════════ */
+    .sap-trail-wrap {
+      position: absolute; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .sap-glint {
+      stroke-dasharray: 26 1400;
+      animation: sap-glint 4.6s linear infinite;
+    }
+    @keyframes sap-glint {
+      0% { stroke-dashoffset: 0; opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { stroke-dashoffset: -1400; opacity: 0; }
+    }
+    @keyframes sap-twinkle {
+      0%, 100% { opacity: .15; transform: scale(.6); }
+      50% { opacity: .9; transform: scale(1); }
+    }
+    @keyframes sap-breathe {
+      0%, 100% { opacity: .55; }
+      50% { opacity: 1; }
+    }
+    .sap-sparkle { transform-origin: center; }
+    .sap-breathe { animation: sap-breathe 3s ease-in-out infinite; }
+
+    /* ══════════════════════════════
+       NAVBAR
+       ══════════════════════════════ */
+    header.nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      transition: all 500ms;
+      background: transparent;
+    }
+    header.nav.scrolled {
+      background: rgba(27,19,13,.8);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgb(var(--border));
+      box-shadow: 0 8px 30px rgba(0,0,0,.35);
+    }
+    .nav-inner {
+      max-width: 80rem; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 80px;
+    }
+    .logo { display: flex; flex-direction: column; line-height: 1; }
+    .logo-name { font-family: var(--font-serif); font-style: italic; font-size: 1.25rem; color: rgb(var(--primary)); }
+    .logo-sub { font-size: 11px; text-transform: uppercase; letter-spacing: .28em; color: rgb(var(--muted-foreground)); margin-top: 4px; }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: .875rem; font-weight: 500;
+      color: rgba(242,230,210,.7);
+      transition: color 200ms;
+    }
+    .nav-links a:hover { color: rgb(var(--primary)); }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(to bottom, rgb(var(--primary)), rgb(var(--accent)));
+      color: rgb(var(--primary-foreground));
+      padding: 10px 20px; border-radius: 8px;
+      font-size: .875rem; font-weight: 600;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.3);
+      border: 1px solid rgba(222,201,159,.3);
+      transition: transform 200ms;
+    }
+    .btn-primary:hover { transform: scale(1.03); }
+    .btn-primary:active { transform: scale(.95); }
+    .btn-primary.big {
+      height: 52px; padding: 0 32px; font-size: 1rem;
+      border-radius: 12px;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.35), 0 16px 36px rgba(224,184,114,.2);
+    }
+    .btn-primary.hero-cta {
+      height: 48px; padding: 0 28px; border-radius: 12px;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.35), 0 4px 14px rgba(0,0,0,.35), 0 16px 36px rgba(222,201,159,.18);
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: rgba(36,25,16,.7); color: rgb(var(--foreground));
+      padding: 0 28px; height: 48px; border-radius: 12px;
+      font-size: .875rem; font-weight: 600;
+      border: 1px solid rgb(var(--border));
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      box-shadow: inset 0 1px 1px rgba(242,230,210,.08), 0 2px 6px rgba(0,0,0,.25);
+      transition: transform 200ms;
+    }
+    .btn-ghost:hover { transform: scale(1.02); }
+
+    .hbg { display: none; flex-direction: column; gap: 5px; padding: 6px; z-index: 60; }
+    .hbg b { display: block; width: 22px; height: 1.5px; background: rgb(var(--foreground)); transition: all 200ms; }
+    .mob {
+      display: none; position: fixed; inset: 0; z-index: 55;
+      background: rgba(27,19,13,.97);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .mob.open { display: flex; }
+    .mob a {
+      font-family: var(--font-serif); font-size: 2rem; font-style: italic;
+      color: rgb(var(--foreground)); transition: color 200ms;
+    }
+    .mob a:hover { color: rgb(var(--primary)); }
+    .mob-x { position: absolute; top: 20px; right: 24px; font-size: 1.5rem; color: rgb(var(--muted-foreground)); }
+
+    /* ══════════════════════════════
+       HERO
+       ══════════════════════════════ */
+    .hero {
+      position: relative; width: 100%; min-height: 100dvh;
+      display: flex; flex-direction: column; justify-content: space-between; gap: 24px;
+      padding: 112px 24px 56px;
+      overflow: hidden; user-select: none;
+    }
+    .hero-halos {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    }
+    .hero-halos::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top, rgba(222,201,159,.14), transparent 52%);
+    }
+    .hero-halos::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at center, transparent 30%, rgb(var(--background)) 88%);
+      opacity: .8;
+    }
+
+    .hero-top {
+      position: relative; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; pointer-events: none; width: 100%;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 100px;
+      border: 1px solid rgba(222,201,159,.25);
+      background: rgba(222,201,159,.05);
+      font-size: 11px; text-transform: uppercase; letter-spacing: .22em;
+      color: rgba(222,201,159,.9);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      margin-bottom: 20px;
+      opacity: 0; transform: translateY(-8px);
+      transition: all 1000ms var(--ease-out);
+    }
+    .eyebrow.loaded { opacity: 1; transform: none; }
+    .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--primary)); }
+
+    .hero-h1 {
+      display: flex; flex-wrap: wrap;
+      align-items: baseline; justify-content: center;
+      gap: 8px; padding: 0 4px; width: 100%;
+      font-size: clamp(2.9rem, 12vw, 8rem);
+      line-height: .95;
+    }
+    @media (min-width: 640px) { .hero-h1 { gap: 16px; } }
+    @media (min-width: 1024px) { .hero-h1 { gap: 24px; font-size: clamp(6rem, 9vw, 9.5rem); } }
+    .hero-h1 .p1 { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
+    .hero-h1 .p2 { font-family: var(--font-sans); font-weight: 800; letter-spacing: -.02em; }
+
+    .sap-gold-text {
+      color: transparent;
+      background: linear-gradient(100deg,
+        rgb(var(--primary)) 0%,
+        #f6e6c2 22%,
+        rgb(var(--accent)) 45%,
+        #fff4dc 55%,
+        rgb(var(--secondary)) 78%,
+        rgb(var(--primary)) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-stroke: 1px rgba(224,184,114,.22);
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(224,184,114,.18));
+      animation: shimmer 9s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% center; }
+      100% { background-position: 0% center; }
+    }
+
+    .hero-tagline {
+      margin-top: 20px;
+      font-family: var(--font-serif); font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: rgba(242,230,210,.8);
+    }
+
+    .hero-mid {
+      position: relative; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 0 4px; width: 100%; pointer-events: none;
+    }
+    .hero-desc {
+      font-size: clamp(.875rem, 1.4vw, 1.125rem);
+      font-weight: 300; color: rgba(242,230,210,.75);
+      max-width: 640px; line-height: 1.6;
+      text-wrap: balance;
+    }
+    .pills {
+      margin-top: 28px;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 10px; list-style: none;
+      opacity: 0; transform: translateY(12px);
+      transition: all 1000ms 250ms var(--ease-out);
+    }
+    .pills.loaded { opacity: 1; transform: none; }
+    .pill {
+      padding: 6px 14px; border-radius: 100px;
+      border: 1px solid rgb(var(--border));
+      background: rgba(36,25,16,.6);
+      font-size: .8125rem; font-weight: 500;
+      color: rgba(242,230,210,.85);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      box-shadow: inset 0 1px 0 rgba(242,230,210,.06);
+    }
+
+    .hero-bottom {
+      position: relative; z-index: 10;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 32px; width: 100%;
+    }
+    .cta-row {
+      pointer-events: auto;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; padding: 0 4px;
+      opacity: 0; transform: translateY(32px);
+      transition: all 1000ms 420ms var(--ease-out);
+    }
+    .cta-row.loaded { opacity: 1; transform: none; }
+    @media (min-width: 640px) { .cta-row { flex-direction: row; } }
+
+    .partners-wrap {
+      pointer-events: auto;
+      width: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px;
+      opacity: 0; transform: translateY(32px);
+      transition: all 1000ms 600ms var(--ease-out);
+    }
+    .partners-wrap.loaded { opacity: 1; transform: none; }
+    .partners-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .2em;
+      color: rgba(192,174,146,.8); font-weight: 500;
+    }
+    .marquee {
+      position: relative; width: 100%; max-width: 56rem; overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, white 12%, white 88%, transparent);
+      mask-image: linear-gradient(to right, transparent, white 12%, white 88%, transparent);
+    }
+    .marquee-track {
+      display: flex; gap: 48px; width: max-content; padding: 8px 0;
+      animation: marquee 32s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .partner-item { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .partner-name {
+      font-weight: 600; text-transform: uppercase;
+      letter-spacing: .18em; font-size: 1rem;
+      color: rgba(242,230,210,.55);
+    }
+    @media (min-width: 640px) { .partner-name { font-size: 1.125rem; } }
+    .partner-role {
+      font-size: 10px; text-transform: uppercase; letter-spacing: .12em;
+      color: rgba(222,201,159,.45);
+    }
+
+    /* ══════════════════════════════
+       SECTION BASE
+       ══════════════════════════════ */
+    .section {
+      position: relative;
+      padding: 96px 24px;
+    }
+    @media (min-width: 768px) { .section { padding: 128px 24px; } }
+    .inner { max-width: 72rem; margin: 0 auto; position: relative; z-index: 10; }
+    .inner-narrow { max-width: 42rem; margin: 0 auto; text-align: center; }
+
+    .section-eyebrow {
+      font-size: 12px; text-transform: uppercase; letter-spacing: .24em;
+      color: rgba(222,201,159,.8);
+    }
+    .section-h {
+      font-family: var(--font-serif); font-weight: 400;
+      font-size: clamp(1.875rem, 4vw, 3rem);
+      line-height: 1.15;
+      color: rgb(var(--foreground));
+    }
+    .section-sub {
+      margin-top: 16px;
+      font-size: clamp(1rem, 1.6vw, 1.125rem);
+      color: rgba(242,230,210,.7);
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ══════════════════════════════
+       SAP BEAMS (Pillars section bg)
+       ══════════════════════════════ */
+    .sap-beams-wrap {
+      position: absolute; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .sap-beams-wrap svg { opacity: .7; width: 100%; height: 100%; }
+    @keyframes sap-beam-flow {
+      0% { stroke-dashoffset: 100%; }
+      100% { stroke-dashoffset: -50%; }
+    }
+    @keyframes sap-node-pulse {
+      0% { opacity: .6; transform: scale(1); }
+      100% { opacity: 0; transform: scale(3.5); }
+    }
+    .sap-flow-line {
+      stroke-dasharray: 40% 200%;
+      animation: sap-beam-flow var(--dur, 3.4s) linear infinite;
+      animation-delay: var(--dly, 0s);
+    }
+    .sap-node-ring {
+      transform-box: fill-box; transform-origin: center;
+      animation: sap-node-pulse 2.4s ease-out infinite;
+      animation-delay: var(--dly, 0s);
+    }
+
+    /* ══════════════════════════════
+       PILLARS
+       ══════════════════════════════ */
+    .pillars-grid {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 640px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .pillars-grid { grid-template-columns: repeat(4, 1fr); } }
+    .pillar {
+      height: 100%;
+      background: rgba(36,25,16,.7);
+      border: 1px solid rgb(var(--border));
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: all 300ms;
+    }
+    .pillar:hover {
+      border-color: rgba(222,201,159,.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.4);
+    }
+    .pillar-num {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(222,201,159,.3);
+      background: rgba(222,201,159,.1);
+      font-family: var(--font-serif); font-size: 1.125rem;
+      color: rgb(var(--primary));
+      margin-bottom: 16px;
+    }
+    .pillar h3 { font-family: var(--font-serif); font-size: 1.25rem; color: rgb(var(--foreground)); margin-bottom: 8px; }
+    .pillar p { font-size: .875rem; line-height: 1.65; color: rgba(242,230,210,.65); }
+
+    /* ══════════════════════════════
+       CREATIONS — Fan Gallery
+       ══════════════════════════════ */
+    #creations { scroll-margin-top: 80px; }
+    .creations-header { text-align: center; max-width: 42rem; margin: 0 auto; padding: 0 24px; }
+    .fan-wrap { margin-top: 48px; display: flex; flex-direction: column; align-items: center; width: 100%; }
+    @media (min-width: 768px) { .fan-wrap { margin-top: 64px; } }
+    .fan-outer { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 90rem; }
+    .fan-layout {
+      position: relative;
+      display: flex; justify-content: center; align-items: center;
+      width: 100%; max-width: 80rem;
+      height: 17rem;
+    }
+    @media (min-width: 480px) { .fan-layout { height: 19rem; } }
+    @media (min-width: 640px) { .fan-layout { height: 21rem; } }
+    @media (min-width: 768px) { .fan-layout { height: 25rem; } }
+    @media (min-width: 1024px) { .fan-layout { height: 28rem; } }
+    .fan-card {
+      position: absolute; left: 50%; top: 50%;
+      width: 9rem; height: 12rem;
+      margin-left: -4.5rem; margin-top: -6rem;
+      border-radius: 16px; overflow: hidden;
+      background: rgb(var(--card));
+      border: 1px solid rgb(var(--border));
+      box-shadow: 0 18px 40px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.4), inset 0 1px 0 rgba(242,230,210,.06);
+      will-change: transform;
+      transition: transform 500ms cubic-bezier(.34,1.56,.64,1);
+      cursor: pointer;
+    }
+    @media (min-width: 480px) { .fan-card { width: 10rem; height: 13.5rem; margin-left: -5rem; margin-top: -6.75rem; } }
+    @media (min-width: 640px) { .fan-card { width: 11rem; height: 15rem; margin-left: -5.5rem; margin-top: -7.5rem; } }
+    @media (min-width: 768px) { .fan-card { width: 13rem; height: 17.5rem; margin-left: -6.5rem; margin-top: -8.75rem; } }
+    @media (min-width: 1024px) { .fan-card { width: 15rem; height: 20rem; margin-left: -7.5rem; margin-top: -10rem; } }
+    .fan-card-inner { position: relative; width: 100%; height: 100%; overflow: hidden; }
+    .fan-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .fan-card-cap {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 16px;
+      background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.2) 60%, transparent);
+      color: rgb(var(--foreground));
+      font-family: var(--font-serif); font-style: italic;
+      font-size: 1rem;
+      opacity: 0; transform: translateY(8px);
+      transition: all 300ms;
+    }
+    .fan-card:hover .fan-card-cap { opacity: 1; transform: none; }
+    .fan-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; z-index: 30; }
+    @media (min-width: 768px) { .fan-controls { margin-top: 32px; } }
+    .fan-arrow {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid rgba(222,201,159,.2);
+      background: rgba(222,201,159,.05);
+      color: rgba(222,201,159,.6);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,.4);
+      transition: all 300ms;
+    }
+    @media (min-width: 768px) { .fan-arrow { width: 48px; height: 48px; } }
+    .fan-arrow:hover { border-color: rgba(222,201,159,.45); color: rgb(var(--primary)); }
+    .fan-arrow:active { opacity: .7; }
+    .fan-dots { display: flex; align-items: center; gap: 8px; }
+    .fan-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(222,201,159,.2); transition: all 300ms; }
+    .fan-dot.active { background: rgb(var(--primary)); transform: scale(1.4); }
+    .creations-note { margin-top: 40px; text-align: center; padding: 0 24px; font-size: .875rem; color: rgb(var(--muted-foreground)); }
+
+    /* ══════════════════════════════
+       STORY
+       ══════════════════════════════ */
+    #histoire { scroll-margin-top: 80px; }
+    #histoire::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at left, rgba(138,90,51,.14), transparent 55%);
+      pointer-events: none;
+    }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 48px; align-items: center;
+    }
+    @media (min-width: 1024px) { .story-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+    .story-text p {
+      font-size: 1rem; line-height: 1.7;
+      color: rgba(242,230,210,.75);
+      margin-bottom: 20px;
+    }
+    @media (min-width: 768px) { .story-text p { font-size: 1.125rem; } }
+    .story-stats {
+      margin-top: 40px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; padding-top: 32px;
+      border-top: 1px solid rgb(var(--border));
+    }
+    .story-stat dt { font-family: var(--font-serif); font-size: 1.75rem; color: rgb(var(--primary)); }
+    @media (min-width: 768px) { .story-stat dt { font-size: 2rem; } }
+    .story-stat dd { margin-top: 4px; font-size: .8125rem; color: rgb(var(--muted-foreground)); }
+    .story-visual {
+      position: relative;
+      aspect-ratio: 4/5; width: 100%;
+      border-radius: 24px; overflow: hidden;
+      border: 1px solid rgb(var(--border));
+      background: linear-gradient(to bottom right, rgba(146,102,64,.3), rgb(var(--card)), rgb(var(--background)));
+      box-shadow: 0 30px 70px rgba(0,0,0,.5);
+    }
+    .story-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(224,184,114,.25), transparent 55%);
+    }
+    .story-visual-frame { position: absolute; inset: 24px; border: 1px solid rgba(222,201,159,.2); border-radius: 16px; }
+    .story-visual-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 32px; z-index: 2; }
+    .story-visual-caption p { font-family: var(--font-serif); font-style: italic; font-size: 1.5rem; color: rgba(242,230,210,.9); line-height: 1.3; }
+    @media (min-width: 768px) { .story-visual-caption p { font-size: 1.875rem; } }
+    .story-visual-caption span { margin-top: 16px; display: block; font-size: .8125rem; text-transform: uppercase; letter-spacing: .2em; color: rgba(222,201,159,.8); }
+    .story-visual-badge {
+      position: absolute; top: 16px; right: 16px; z-index: 2;
+      padding: 4px 12px; border-radius: 100px;
+      background: rgba(27,19,13,.7);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+      color: rgb(var(--muted-foreground));
+    }
+
+    /* ══════════════════════════════
+       VALUES
+       ══════════════════════════════ */
+    #valeurs { scroll-margin-top: 80px; }
+    .values-grid { margin-top: 56px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 768px) { .values-grid { grid-template-columns: 1fr 1fr; } }
+    .value-card {
+      display: flex; gap: 20px;
+      background: rgba(36,25,16,.6);
+      border: 1px solid rgb(var(--border));
+      border-radius: 16px; padding: 28px;
+      transition: border-color 300ms;
+    }
+    .value-card:hover { border-color: rgba(222,201,159,.4); }
+    .value-icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(222,201,159,.1);
+      color: rgb(var(--primary));
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(222,201,159,.2);
+    }
+    .value-card h3 { font-family: var(--font-serif); font-size: 1.25rem; color: rgb(var(--foreground)); margin-bottom: 8px; }
+    .value-card p { font-size: .875rem; line-height: 1.65; color: rgba(242,230,210,.65); }
+
+    /* ══════════════════════════════
+       FINAL CTA
+       ══════════════════════════════ */
+    .final-cta { position: relative; overflow: hidden; text-align: center; }
+    .final-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(224,184,114,.16), transparent 60%);
+      pointer-events: none;
+    }
+    .final-cta .inner-narrow { max-width: 48rem; }
+    .final-cta h2 {
+      font-family: var(--font-serif); font-weight: 400;
+      font-size: clamp(1.875rem, 5vw, 3.75rem);
+      line-height: 1.15;
+      color: rgb(var(--foreground));
+    }
+    .final-cta p {
+      margin-top: 20px; max-width: 36rem; margin-left: auto; margin-right: auto;
+      font-size: 1rem; color: rgba(242,230,210,.7);
+    }
+
+    /* ══════════════════════════════
+       CONTACT (inline)
+       ══════════════════════════════ */
+    #contact { scroll-margin-top: 80px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr; gap: 48px; margin-top: 56px; }
+    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+    .contact-info h3 { font-family: var(--font-serif); font-size: 1.5rem; color: rgb(var(--foreground)); margin-bottom: 20px; }
+    .contact-info-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .contact-info-item { display: flex; align-items: flex-start; gap: 14px; color: rgba(242,230,210,.75); font-size: .95rem; }
+    .contact-info-item svg { flex-shrink: 0; color: rgb(var(--primary)); margin-top: 3px; }
+    .contact-info-item a:hover { color: rgb(var(--primary)); }
+    .contact-info-label { color: rgb(var(--muted-foreground)); font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2px; }
+
+    .contact-form {
+      background: rgba(36,25,16,.7);
+      border: 1px solid rgb(var(--border));
+      border-radius: 20px; padding: 32px;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+    @media (min-width: 640px) { .form-row { grid-template-columns: 1fr 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .field label { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 500; color: rgb(var(--muted-foreground)); }
+    .field label .req { color: rgb(var(--primary)); }
+    .field input, .field textarea, .field select {
+      background: rgba(242,230,210,.04);
+      border: 1px solid rgb(var(--border));
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: rgb(var(--foreground));
+      font-family: var(--font-sans); font-size: .95rem; font-weight: 300;
+      width: 100%;
+      transition: border-color 200ms, background 200ms, box-shadow 200ms;
+    }
+    .field textarea { min-height: 130px; resize: vertical; }
+    .field select { appearance: none; cursor: pointer; }
+    .field input::placeholder, .field textarea::placeholder { color: rgba(192,174,146,.5); }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      outline: none; border-color: rgb(var(--primary));
+      background: rgba(222,201,159,.06);
+      box-shadow: 0 0 0 3px rgba(222,201,159,.15);
+    }
+    .form-note { font-size: .8125rem; color: rgb(var(--muted-foreground)); margin-bottom: 20px; }
+    .form-msg {
+      display: none; margin-top: 12px;
+      padding: 12px 16px; border-radius: 10px;
+      background: rgba(64,180,120,.1);
+      border: 1px solid rgba(64,180,120,.25);
+      color: rgb(120,200,150); font-size: .875rem;
+    }
+    .form-msg.show { display: block; }
+
+    /* ══════════════════════════════
+       FOOTER
+       ══════════════════════════════ */
+    footer { border-top: 1px solid rgb(var(--border)); background: rgb(var(--background)); position: relative; z-index: 10; }
+    .ft-inner { max-width: 72rem; margin: 0 auto; padding: 56px 24px; }
+    .ft-top { display: flex; flex-direction: column; gap: 40px; }
+    @media (min-width: 768px) { .ft-top { flex-direction: row; align-items: flex-start; justify-content: space-between; } }
+    .ft-brand { max-width: 24rem; }
+    .ft-brand-tag { margin-top: 16px; font-family: var(--font-serif); font-style: italic; color: rgba(242,230,210,.7); }
+    .ft-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .ft-cols h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .2em; color: rgb(var(--muted-foreground)); }
+    .ft-cols ul { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .ft-cols a { display: inline-flex; align-items: center; gap: 8px; font-size: .875rem; color: rgba(242,230,210,.7); transition: color 200ms; }
+    .ft-cols a:hover { color: rgb(var(--primary)); }
+    .ft-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgb(var(--border)); font-size: .75rem; color: rgb(var(--muted-foreground)); }
+
+    /* Focus visible */
+    :focus-visible { outline: 2px solid rgb(var(--ring)); outline-offset: 3px; border-radius: 4px; }
+    ::selection { background: rgba(222,201,159,.85); color: rgb(var(--primary-foreground)); }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+      .sap-gold-text { animation: none; background-position: 0% center; }
+      .marquee-track { animation: none; }
+      .sap-glint, .sap-sparkle, .sap-breathe, .sap-flow-line, .sap-node-ring { animation: none; }
+    }
+
+    /* Responsive nav */
+    @media (max-width: 768px) {
+      .nav-links, header.nav .btn-primary { display: none; }
+      .hbg { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip">Aller au contenu</a>
+
+<!-- Background layers -->
+<div aria-hidden="true" class="sarame-motif"></div>
+<div aria-hidden="true" class="bark-ambiance"></div>
+
+<!-- Global Sap Trail (full page height) -->
+<div class="sap-trail-wrap" id="sapTrail" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" id="nav" role="banner">
+  <nav class="nav-inner" aria-label="Navigation principale">
+    <a href="#hero" class="logo" aria-label="Sarame Art Design — accueil">
+      <span class="logo-name">Sarame</span>
+      <span class="logo-sub">Art Design</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#creations">Créations</a></li>
+      <li><a href="#histoire">L'atelier</a></li>
+      <li><a href="#valeurs">Nos valeurs</a></li>
+    </ul>
+    <a href="#contact" class="btn-primary">Contact</a>
+    <button class="hbg" id="hbg" aria-label="Ouvrir le menu" aria-expanded="false"><b></b><b></b><b></b></button>
+  </nav>
+</header>
+
+<div class="mob" id="mob" role="dialog" aria-label="Menu">
+  <button class="mob-x" id="mobX" aria-label="Fermer le menu">✕</button>
+  <a href="#creations">Créations</a>
+  <a href="#histoire">L'atelier</a>
+  <a href="#valeurs">Nos valeurs</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="hero" aria-label="Présentation de Sarame Art Design">
+  <div class="hero-halos" aria-hidden="true"></div>
+
+  <div class="hero-top">
+    <span class="eyebrow" id="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      Atelier d'ébénisterie d'art · Guyane
+    </span>
+    <h1 class="hero-h1 sap-gold-text">
+      <span class="p1">Sarame</span>
+      <span class="p2">Art Design</span>
+    </h1>
+    <p class="hero-tagline">Le bois intérieur, l'harmonie dans votre demeure</p>
+  </div>
+
+  <div class="hero-mid">
+    <p class="hero-desc">
+      Sarame Art Design est bien plus qu'une boutique d'art, c'est une ode à l'artisanat traditionnel Saramaca. Chaque pièce, façonnée à la main dans des bois précieux, porte l'âme et l'histoire de la Guyane.
+    </p>
+    <ul class="pills" id="hero-pills">
+      <li class="pill">Bois précieux</li>
+      <li class="pill">Artisanat Saramaca</li>
+      <li class="pill">Pièces uniques</li>
+      <li class="pill">Savoir-faire d'expert</li>
+    </ul>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="cta-row" id="cta-row">
+      <a href="#creations" class="btn-primary hero-cta">
+        Découvrir les créations
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a href="#contact" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Nous contacter
+      </a>
+    </div>
+
+    <div class="partners-wrap" id="partners-wrap">
+      <span class="partners-label">Ils nous accordent leur confiance</span>
+      <div class="marquee">
+        <div class="marquee-track">
+          <span class="partner-item"><span class="partner-name">SIFAG</span><span class="partner-role">Partenaire majeur</span></span>
+          <span class="partner-item"><span class="partner-name">TRITON</span><span class="partner-role">Client</span></span>
+          <span class="partner-item"><span class="partner-name">VOLTALIA</span><span class="partner-role">Client</span></span>
+          <span class="partner-item"><span class="partner-name">SIFAG</span><span class="partner-role">Partenaire majeur</span></span>
+          <span class="partner-item"><span class="partner-name">TRITON</span><span class="partner-role">Client</span></span>
+          <span class="partner-item"><span class="partner-name">VOLTALIA</span><span class="partner-role">Client</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS with SapBeams background -->
+<section class="section wood-grain">
+  <!-- SapBeams (5 canals with animated gradient) -->
+  <div class="sap-beams-wrap" aria-hidden="true">
+    <svg viewBox="0 0 900 520" fill="none" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sap-b0" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgb(222,201,159)" stop-opacity="0"/>
+          <stop offset="25%" stop-color="rgb(222,201,159)" stop-opacity="1"/>
+          <stop offset="55%" stop-color="rgb(205,176,124)" stop-opacity="1"/>
+          <stop offset="100%" stop-color="rgb(146,102,64)" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="sap-b1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgb(222,201,159)" stop-opacity="0"/>
+          <stop offset="25%" stop-color="rgb(222,201,159)" stop-opacity="1"/>
+          <stop offset="55%" stop-color="rgb(205,176,124)" stop-opacity="1"/>
+          <stop offset="100%" stop-color="rgb(146,102,64)" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="sap-b2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgb(222,201,159)" stop-opacity="0"/>
+          <stop offset="25%" stop-color="rgb(222,201,159)" stop-opacity="1"/>
+          <stop offset="55%" stop-color="rgb(205,176,124)" stop-opacity="1"/>
+          <stop offset="100%" stop-color="rgb(146,102,64)" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="sap-b3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgb(222,201,159)" stop-opacity="0"/>
+          <stop offset="25%" stop-color="rgb(222,201,159)" stop-opacity="1"/>
+          <stop offset="55%" stop-color="rgb(205,176,124)" stop-opacity="1"/>
+          <stop offset="100%" stop-color="rgb(146,102,64)" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="sap-b4" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgb(222,201,159)" stop-opacity="0"/>
+          <stop offset="25%" stop-color="rgb(222,201,159)" stop-opacity="1"/>
+          <stop offset="55%" stop-color="rgb(205,176,124)" stop-opacity="1"/>
+          <stop offset="100%" stop-color="rgb(146,102,64)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Base grooves -->
+      <path d="M450 520 L450 320" stroke="rgb(64,47,30)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M450 320 C 300 300, 230 240, 150 150" stroke="rgb(64,47,30)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M450 320 C 360 260, 340 200, 330 110" stroke="rgb(64,47,30)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M450 320 C 540 260, 560 200, 570 110" stroke="rgb(64,47,30)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M450 320 C 600 300, 670 240, 750 150" stroke="rgb(64,47,30)" stroke-width="1.5" stroke-linecap="round"/>
+
+      <!-- Flowing sap (gradient circulation via stroke-dashoffset animation) -->
+      <path class="sap-flow-line" style="--dur:3.2s;--dly:0s" d="M450 520 L450 320" stroke="url(#sap-b0)" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="sap-flow-line" style="--dur:3.6s;--dly:.3s" d="M450 320 C 300 300, 230 240, 150 150" stroke="url(#sap-b1)" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="sap-flow-line" style="--dur:3.4s;--dly:.6s" d="M450 320 C 360 260, 340 200, 330 110" stroke="url(#sap-b2)" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="sap-flow-line" style="--dur:3.4s;--dly:.45s" d="M450 320 C 540 260, 560 200, 570 110" stroke="url(#sap-b3)" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="sap-flow-line" style="--dur:3.6s;--dly:.75s" d="M450 320 C 600 300, 670 240, 750 150" stroke="url(#sap-b4)" stroke-width="2.5" stroke-linecap="round"/>
+
+      <!-- Junction nodes with pulse rings -->
+      <g><circle cx="450" cy="320" r="5" fill="rgb(222,201,159)" stroke="rgb(205,176,124)"/><circle class="sap-node-ring" style="--dly:0s" cx="450" cy="320" r="5" fill="none" stroke="rgb(222,201,159)"/></g>
+      <g><circle cx="150" cy="150" r="4" fill="rgb(222,201,159)" stroke="rgb(205,176,124)"/><circle class="sap-node-ring" style="--dly:.3s" cx="150" cy="150" r="4" fill="none" stroke="rgb(222,201,159)"/></g>
+      <g><circle cx="330" cy="110" r="4" fill="rgb(222,201,159)" stroke="rgb(205,176,124)"/><circle class="sap-node-ring" style="--dly:.6s" cx="330" cy="110" r="4" fill="none" stroke="rgb(222,201,159)"/></g>
+      <g><circle cx="570" cy="110" r="4" fill="rgb(222,201,159)" stroke="rgb(205,176,124)"/><circle class="sap-node-ring" style="--dly:.45s" cx="570" cy="110" r="4" fill="none" stroke="rgb(222,201,159)"/></g>
+      <g><circle cx="750" cy="150" r="4" fill="rgb(222,201,159)" stroke="rgb(205,176,124)"/><circle class="sap-node-ring" style="--dly:.75s" cx="750" cy="150" r="4" fill="none" stroke="rgb(222,201,159)"/></g>
+    </svg>
+  </div>
+
+  <div class="inner">
+    <div class="reveal inner-narrow">
+      <h2 class="section-h">Une expérience unique, de la sève à l'œuvre</h2>
+      <p class="section-sub">Du choix de l'essence à la dernière patine, chaque création suit un même fil : faire vivre le bois.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar reveal"><div class="pillar-num">01</div><h3>Bois précieux</h3><p>Des essences nobles et locales, sélectionnées pour leur grain, leur teinte et leur durabilité.</p></div>
+      <div class="pillar reveal"><div class="pillar-num">02</div><h3>Savoir-faire Saramaca</h3><p>Un héritage de gestes transmis, où la sculpture raconte une culture et une histoire.</p></div>
+      <div class="pillar reveal"><div class="pillar-num">03</div><h3>Pièces uniques</h3><p>Aucune œuvre n'est identique : chaque réalisation est pensée, dessinée et façonnée à la main.</p></div>
+      <div class="pillar reveal"><div class="pillar-num">04</div><h3>Sur-mesure</h3><p>Nous concevons avec vous des pièces qui épousent votre lieu de vie et vos usages.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CREATIONS -->
+<section class="section" id="creations" aria-labelledby="creat-h">
+  <div class="creations-header reveal">
+    <span class="section-eyebrow">Nos créations</span>
+    <h2 class="section-h" id="creat-h" style="margin-top:12px">Le bois sublimé, pièce après pièce</h2>
+    <p class="section-sub">Tables, sculptures, masques, vases, miroirs… autant d'objets du quotidien élevés au rang d'œuvres.</p>
+  </div>
+
+  <div class="fan-wrap">
+    <div class="fan-outer">
+      <div class="fan-layout" id="fan-layout">
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/table.svg" alt="Table basse en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Table basse</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/sculpture.svg" alt="Sculpture en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Sculpture</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/masque.svg" alt="Masque en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Masque</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/saladier.svg" alt="Saladier en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Saladier</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/vase.svg" alt="Vase en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Vase</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/miroir.svg" alt="Miroir en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Miroir</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/tabouret.svg" alt="Tabouret en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Tabouret</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/tableau.svg" alt="Tableau en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Tableau</figcaption></div></figure>
+        <figure class="fan-card"><div class="fan-card-inner"><img src="./public/creations/chaise.svg" alt="Chaise en bois — Sarame Art Design" loading="lazy"><figcaption class="fan-card-cap">Chaise</figcaption></div></figure>
+      </div>
+    </div>
+    <div class="fan-controls">
+      <button class="fan-arrow" id="fan-prev" aria-label="Création précédente">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="fan-dots" id="fan-dots"></div>
+      <button class="fan-arrow" id="fan-next" aria-label="Création suivante">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+  <p class="creations-note">Chaque pièce est unique et réalisée sur commande. Contactez-nous pour en savoir plus.</p>
+</section>
+
+<!-- STORY -->
+<section class="section wood-grain" id="histoire" aria-labelledby="story-h">
+  <div class="inner story-grid">
+    <div class="story-text reveal">
+      <span class="section-eyebrow">Qui sommes-nous ?</span>
+      <h2 class="section-h" id="story-h" style="margin-top:12px">Trois passions, une même racine</h2>
+      <div style="margin-top:24px">
+        <p>Fondée par un trio passionné, notre atelier crée des pièces uniques en bois, reflétant l'âme et l'histoire de la Guyane.</p>
+        <p>Nous puisons notre inspiration dans l'artisanat traditionnel Saramaca — un art de la sculpture transmis de génération en génération au cœur de la forêt guyanaise.</p>
+        <p>Notre objectif est de préserver et partager l'art Saramaca à travers des créations authentiques et originales.</p>
+      </div>
+      <dl class="story-stats">
+        <div class="story-stat"><dt>3</dt><dd>artisans passionnés</dd></div>
+        <div class="story-stat"><dt>100%</dt><dd>fait main</dd></div>
+        <div class="story-stat"><dt>Guyane</dt><dd>terre d'origine</dd></div>
+      </dl>
+    </div>
+    <div class="reveal">
+      <div class="story-visual wood-grain">
+        <div class="story-visual-frame"></div>
+        <span class="story-visual-badge">Visuel atelier à fournir</span>
+        <div class="story-visual-caption">
+          <p>« L'âme et l'histoire de la Guyane,<br>sculptées dans le bois. »</p>
+          <span>Art Saramaca · Kourou, Guyane française</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section" id="valeurs" aria-labelledby="val-h">
+  <div class="inner">
+    <div class="reveal inner-narrow">
+      <span class="section-eyebrow">Nos valeurs</span>
+      <h2 class="section-h" id="val-h" style="margin-top:12px">Pourquoi nous le faisons</h2>
+      <p class="section-sub">Au-delà de l'objet, notre travail porte une mission : faire rayonner un patrimoine et un rapport vivant au bois.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div><h3>Préserver le patrimoine</h3><p>Faire vivre et transmettre l'art Saramaca, pour qu'un savoir-faire précieux ne se perde pas.</p></div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+        </div>
+        <div><h3>Authenticité</h3><p>Des créations honnêtes, sans artifice, fidèles à la matière et à la main qui la façonne.</p></div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96a1 1 0 0 1 1.8.66c0 1.31-.32 3.75-1.48 6.11"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </div>
+        <div><h3>Respect du vivant</h3><p>Un bois choisi avec soin et travaillé durablement, dans le respect de la forêt qui l'a vu naître.</p></div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+        </div>
+        <div><h3>Transmission</h3><p>Partager une culture et une émotion : chaque pièce raconte une histoire à ceux qui l'accueillent.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section final-cta wood-grain">
+  <div class="reveal inner-narrow" style="position:relative;z-index:10">
+    <h2>Donnons vie à votre prochaine pièce</h2>
+    <p>Une commande sur-mesure, une question, une collaboration ? Parlons de votre projet.</p>
+    <a href="#contact" class="btn-primary big" style="margin-top:40px">
+      Nous contacter
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact" aria-labelledby="cont-h">
+  <div class="inner">
+    <div class="reveal inner-narrow">
+      <span class="section-eyebrow">Contact</span>
+      <h2 class="section-h" id="cont-h" style="margin-top:12px">Écrivons votre projet ensemble</h2>
+      <p class="section-sub">Parlez-nous de la pièce dont vous rêvez. Nous revenons vers vous rapidement.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Nos coordonnées</h3>
+        <ul class="contact-info-list">
+          <li class="contact-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <div><div class="contact-info-label">Email</div><a href="mailto:sarameartdesign888@gmail.com">sarameartdesign888@gmail.com</a></div>
+          </li>
+          <li class="contact-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div><div class="contact-info-label">Téléphone</div><a href="tel:+594694056964">0694 05 69 64</a></div>
+          </li>
+          <li class="contact-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><div class="contact-info-label">Atelier</div>9 rue Ferjus Antoinette, 97310 Kourou, Guyane française</div>
+          </li>
+          <li class="contact-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            <div><div class="contact-info-label">Instagram</div><a href="https://instagram.com/sarame.art.design" target="_blank" rel="noopener">@sarame.art.design</a></div>
+          </li>
+        </ul>
+      </div>
+
+      <form class="contact-form reveal" id="cform" novalidate>
+        <p class="form-note">Les champs marqués d'un * sont obligatoires.</p>
+        <div class="form-row">
+          <div class="field"><label for="prenom">Prénom <span class="req">*</span></label><input type="text" id="prenom" name="prenom" placeholder="Jean" required autocomplete="given-name"></div>
+          <div class="field"><label for="email">Email <span class="req">*</span></label><input type="email" id="email" name="email" placeholder="jean@exemple.com" required autocomplete="email"></div>
+        </div>
+        <div class="field"><label for="tel">Téléphone (optionnel)</label><input type="tel" id="tel" name="tel" placeholder="+594 XXX XXX XXX" autocomplete="tel"></div>
+        <div class="field">
+          <label for="type">Type de création <span class="req">*</span></label>
+          <select id="type" name="type" required>
+            <option value="" style="background:#241910">Sélectionnez...</option>
+            <option value="table" style="background:#241910">Table basse</option>
+            <option value="sculpture" style="background:#241910">Sculpture</option>
+            <option value="masque" style="background:#241910">Masque</option>
+            <option value="saladier" style="background:#241910">Saladier</option>
+            <option value="vase" style="background:#241910">Vase</option>
+            <option value="miroir" style="background:#241910">Miroir</option>
+            <option value="tabouret" style="background:#241910">Tabouret</option>
+            <option value="tableau" style="background:#241910">Tableau</option>
+            <option value="chaise" style="background:#241910">Chaise</option>
+            <option value="autre" style="background:#241910">Autre / sur-mesure</option>
+          </select>
+        </div>
+        <div class="field"><label for="msg">Votre projet <span class="req">*</span></label><textarea id="msg" name="msg" placeholder="Décrivez votre idée, les dimensions souhaitées, l'essence de bois si vous avez une préférence…" required></textarea></div>
+        <button type="submit" class="btn-primary big" style="width:100%">
+          Envoyer le message
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <div class="form-msg" id="fmsg" role="alert" aria-live="polite">✓ Message envoyé — Nous vous répondrons rapidement.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="ft-inner">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="#hero" class="logo">
+          <span class="logo-name" style="font-size:1.5rem">Sarame Art Design</span>
+          <span class="logo-sub" style="margin-top:4px">Kourou, Guyane française</span>
+        </a>
+        <p class="ft-brand-tag">Le bois intérieur, l'harmonie dans votre demeure</p>
+      </div>
+      <div class="ft-cols">
+        <div>
+          <h3>Naviguer</h3>
+          <ul>
+            <li><a href="#creations">Créations</a></li>
+            <li><a href="#histoire">L'atelier</a></li>
+            <li><a href="#valeurs">Nos valeurs</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Suivez-nous</h3>
+          <ul>
+            <li><a href="https://instagram.com/sarame.art.design" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              @sarame.art.design
+            </a></li>
+            <li><a href="#contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Nous écrire
+            </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      © <span id="year"></span> Sarame Art Design — Tous droits réservés. Ode à l'artisanat traditionnel Saramaca.
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const NS = 'http://www.w3.org/2000/svg';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Year ── */
+  $('#year').textContent = new Date().getFullYear();
+
+  /* ── Nav scroll state ── */
+  const nav = $('#nav');
+  const onNavScroll = () => { nav.classList.toggle('scrolled', scrollY > 24); };
+  addEventListener('scroll', onNavScroll, { passive: true });
+  onNavScroll();
+
+  /* ── Mobile menu ── */
+  const hbg = $('#hbg'), mob = $('#mob'), mobX = $('#mobX');
+  const openMenu = () => { mob.classList.add('open'); hbg.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; };
+  const closeMenu = () => { mob.classList.remove('open'); hbg.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; };
+  hbg.addEventListener('click', openMenu);
+  mobX.addEventListener('click', closeMenu);
+  $$('.mob a').forEach(a => a.addEventListener('click', closeMenu));
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  /* ── Hero staggered load ── */
+  addEventListener('load', () => {
+    setTimeout(() => {
+      $('#hero-eyebrow')?.classList.add('loaded');
+      $('#hero-pills')?.classList.add('loaded');
+      $('#cta-row')?.classList.add('loaded');
+      $('#partners-wrap')?.classList.add('loaded');
+    }, 60);
+  });
+
+  /* ── Reveal on scroll (Framer Motion ease [0.22, 1, 0.36, 1]) ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: .12, rootMargin: '-80px 0px' });
+  $$('.reveal').forEach(el => io.observe(el));
+
+  /* ══════════════════════════════
+     SAP TRAIL — golden drop that follows scroll
+     Port of SapTrail.tsx: main sinusoidal path, 6 branches,
+     14 sparkles, drop stretched by scroll velocity.
+     ══════════════════════════════ */
+  const trailWrap = $('#sapTrail');
+  const N_BRANCH = 6;
+  const BRANCH_FRACTIONS = [.15, .29, .43, .57, .71, .85];
+  const N_SPARKLE = 14;
+  let trailState = null;
+
+  function buildMainPath(w, h) {
+    const xC = w * .5;
+    const amp = Math.min(w * .2, 240);
+    const seg = Math.max(4, Math.round(h / 620));
+    const dy = h / seg;
+    let d = `M ${xC.toFixed(1)} 0`;
+    for (let i = 0; i < seg; i++) {
+      const y0 = i * dy;
+      const y1 = (i + 1) * dy;
+      const dir = i % 2 === 0 ? 1 : -1;
+      const cx = xC + dir * amp;
+      d += ` C ${cx.toFixed(1)} ${(y0 + dy * .35).toFixed(1)}, ${cx.toFixed(1)} ${(y0 + dy * .65).toFixed(1)}, ${xC.toFixed(1)} ${y1.toFixed(1)}`;
+    }
+    return d;
+  }
+
+  function buildSapTrail() {
+    const w = document.documentElement.scrollWidth;
+    const h = document.documentElement.scrollHeight;
+    trailWrap.innerHTML = '';
+    trailWrap.style.height = h + 'px';
+
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('width', w);
+    svg.setAttribute('height', h);
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    svg.setAttribute('fill', 'none');
+
+    // defs
+    svg.insertAdjacentHTML('beforeend', `
+      <defs>
+        <linearGradient id="sap-vein" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgb(222,201,159)"/>
+          <stop offset="55%" stop-color="rgb(205,176,124)"/>
+          <stop offset="100%" stop-color="rgb(146,102,64)"/>
+        </linearGradient>
+        <radialGradient id="sap-drop-g" cx="40%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="#fff8e8"/>
+          <stop offset="35%" stop-color="rgb(222,201,159)"/>
+          <stop offset="75%" stop-color="rgb(205,176,124)"/>
+          <stop offset="100%" stop-color="rgb(146,102,64)"/>
+        </radialGradient>
+        <filter id="sap-glow" x="-160%" y="-160%" width="420%" height="420%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>`);
+
+    const path = buildMainPath(w, h);
+
+    // Base groove
+    const groove = document.createElementNS(NS, 'path');
+    groove.setAttribute('d', path);
+    groove.setAttribute('stroke', 'rgb(64,47,30)');
+    groove.setAttribute('stroke-width', '2');
+    groove.setAttribute('stroke-opacity', '.6');
+    svg.appendChild(groove);
+
+    // Branches placeholders
+    const branchEls = [];
+    const leafEls = [];
+    for (let i = 0; i < N_BRANCH; i++) {
+      const br = document.createElementNS(NS, 'path');
+      br.setAttribute('stroke', 'url(#sap-vein)');
+      br.setAttribute('stroke-width', '1.6');
+      br.setAttribute('stroke-linecap', 'round');
+      br.setAttribute('stroke-opacity', '.75');
+      svg.appendChild(br);
+      branchEls.push(br);
+      const lf = document.createElementNS(NS, 'circle');
+      lf.setAttribute('r', '3.4');
+      lf.setAttribute('fill', 'rgb(222,201,159)');
+      lf.style.filter = 'drop-shadow(0 0 5px rgba(222,201,159,.6))';
+      lf.style.opacity = '0';
+      svg.appendChild(lf);
+      leafEls.push(lf);
+    }
+
+    // Main filled path (grows on scroll)
+    const fill = document.createElementNS(NS, 'path');
+    fill.setAttribute('d', path);
+    fill.setAttribute('stroke', 'url(#sap-vein)');
+    fill.setAttribute('stroke-width', '2.6');
+    fill.setAttribute('stroke-linecap', 'round');
+    fill.style.filter = 'drop-shadow(0 0 6px rgba(222,201,159,.45))';
+    svg.appendChild(fill);
+
+    // Glint (continuously travels along path)
+    if (!reduced) {
+      const glint = document.createElementNS(NS, 'path');
+      glint.setAttribute('d', path);
+      glint.setAttribute('class', 'sap-glint');
+      glint.setAttribute('stroke', '#fff6e2');
+      glint.setAttribute('stroke-width', '2');
+      glint.setAttribute('stroke-linecap', 'round');
+      glint.setAttribute('stroke-opacity', '.9');
+      svg.appendChild(glint);
+    }
+
+    // Sparkles
+    const sparkleEls = [];
+    for (let i = 0; i < N_SPARKLE; i++) {
+      const s = document.createElementNS(NS, 'circle');
+      s.setAttribute('r', i % 3 === 0 ? '1.8' : '1.1');
+      s.setAttribute('fill', '#fff3da');
+      s.setAttribute('class', 'sap-sparkle');
+      s.style.animation = `sap-twinkle ${(2.6 + (i % 5) * .6).toFixed(2)}s ease-in-out ${((i % 7) * .4).toFixed(2)}s infinite`;
+      svg.appendChild(s);
+      sparkleEls.push(s);
+    }
+
+    // Drop group
+    const dropG = document.createElementNS(NS, 'g');
+    const halo = document.createElementNS(NS, 'circle');
+    halo.setAttribute('r', '22');
+    halo.setAttribute('fill', 'rgb(222,201,159)');
+    halo.setAttribute('opacity', '.22');
+    halo.setAttribute('filter', 'url(#sap-glow)');
+    dropG.appendChild(halo);
+
+    const shapeG = document.createElementNS(NS, 'g');
+    const streak = document.createElementNS(NS, 'ellipse');
+    streak.setAttribute('cx', '0'); streak.setAttribute('cy', '-13');
+    streak.setAttribute('rx', '3.2'); streak.setAttribute('ry', '13');
+    streak.setAttribute('fill', 'url(#sap-drop-g)');
+    streak.setAttribute('opacity', '.2');
+    shapeG.appendChild(streak);
+    const dc = document.createElementNS(NS, 'circle');
+    dc.setAttribute('r', '9.5'); dc.setAttribute('fill', 'url(#sap-drop-g)');
+    shapeG.appendChild(dc);
+    const dcRing = document.createElementNS(NS, 'circle');
+    dcRing.setAttribute('r', '9.5'); dcRing.setAttribute('fill', 'none');
+    dcRing.setAttribute('stroke', '#fff8e8'); dcRing.setAttribute('stroke-opacity', '.5'); dcRing.setAttribute('stroke-width', '.8');
+    shapeG.appendChild(dcRing);
+    const dcHi = document.createElementNS(NS, 'ellipse');
+    dcHi.setAttribute('cx', '-3'); dcHi.setAttribute('cy', '-4');
+    dcHi.setAttribute('rx', '3'); dcHi.setAttribute('ry', '2');
+    dcHi.setAttribute('fill', '#fffaf0'); dcHi.setAttribute('opacity', '.85');
+    shapeG.appendChild(dcHi);
+    dropG.appendChild(shapeG);
+
+    const breathe = document.createElementNS(NS, 'circle');
+    breathe.setAttribute('r', '11'); breathe.setAttribute('fill', 'none');
+    breathe.setAttribute('stroke', 'rgb(222,201,159)'); breathe.setAttribute('stroke-opacity', '.7'); breathe.setAttribute('stroke-width', '1');
+    breathe.setAttribute('class', 'sap-breathe');
+    dropG.appendChild(breathe);
+    svg.appendChild(dropG);
+
+    trailWrap.appendChild(svg);
+
+    // Compute lengths + branch geometry
+    const L = groove.getTotalLength();
+    fill.style.strokeDasharray = String(L);
+    fill.style.strokeDashoffset = String(L);
+
+    const branchLens = [];
+    BRANCH_FRACTIONS.forEach((f, i) => {
+      const sp = groove.getPointAtLength(L * f);
+      const side = sp.x <= w / 2 ? -1 : 1;
+      const reach = Math.min(w * .2, 230);
+      const ex = sp.x + side * reach;
+      const ey = sp.y + reach * .34;
+      branchEls[i].setAttribute('d',
+        `M ${sp.x.toFixed(1)} ${sp.y.toFixed(1)} C ${(sp.x + side * reach * .32).toFixed(1)} ${(sp.y + 6).toFixed(1)}, ${(ex - side * reach * .3).toFixed(1)} ${(ey - 22).toFixed(1)}, ${ex.toFixed(1)} ${ey.toFixed(1)}`);
+      const bl = branchEls[i].getTotalLength();
+      branchLens[i] = bl;
+      branchEls[i].style.strokeDasharray = String(bl);
+      branchEls[i].style.strokeDashoffset = String(bl);
+      leafEls[i].setAttribute('cx', ex.toFixed(1));
+      leafEls[i].setAttribute('cy', ey.toFixed(1));
+    });
+
+    // Sparkle positions
+    sparkleEls.forEach((c, i) => {
+      const sp = groove.getPointAtLength(L * ((i + .5) / N_SPARKLE));
+      const off = (i % 2 === 0 ? 1 : -1) * (10 + (i % 4) * 7);
+      c.setAttribute('cx', (sp.x + off).toFixed(1));
+      c.setAttribute('cy', sp.y.toFixed(1));
+    });
+
+    return { groove, fill, dropG, shapeG, streak, branchEls, leafEls, branchLens, L };
+  }
+
+  function initSapTrail() {
+    trailState = buildSapTrail();
+    if (!reduced && trailState) runSapLoop();
+  }
+
+  let lastP = 0, stretch = 0, rafId = 0;
+  function runSapLoop() {
+    if (!trailState) return;
+    const { groove, fill, dropG, shapeG, streak, branchEls, leafEls, branchLens, L } = trailState;
+    const docH = document.documentElement.scrollHeight - innerHeight;
+    const p = docH > 0 ? Math.max(0, Math.min(1, scrollY / docH)) : 0;
+    const v = p - lastP;
+    lastP = p;
+
+    fill.style.strokeDashoffset = String(L * (1 - p));
+
+    const len = L * p;
+    const pt = groove.getPointAtLength(len);
+    const a = groove.getPointAtLength(Math.max(0, len - 3));
+    const b = groove.getPointAtLength(Math.min(L, len + 3));
+    const tang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+    const motion = v >= 0 ? tang : tang + 180;
+    const target = Math.min(.9, Math.abs(v) * 90);
+    stretch += (target - stretch) * .18;
+
+    dropG.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)})`);
+    shapeG.setAttribute('transform',
+      `rotate(${(motion - 90).toFixed(1)}) scale(${(1 - stretch * .28).toFixed(3)}, ${(1 + stretch * 1.4).toFixed(3)})`);
+    streak.style.opacity = (.18 + stretch * .6).toFixed(2);
+
+    BRANCH_FRACTIONS.forEach((f, i) => {
+      const bl = branchLens[i] || 0;
+      const r = Math.max(0, Math.min(1, (p - f) / .06));
+      branchEls[i].style.strokeDashoffset = String(bl * (1 - r));
+      leafEls[i].style.opacity = String(r);
+    });
+
+    rafId = requestAnimationFrame(runSapLoop);
+  }
+
+  addEventListener('load', () => { setTimeout(initSapTrail, 100); });
+  let rebT;
+  addEventListener('resize', () => {
+    clearTimeout(rebT);
+    rebT = setTimeout(() => {
+      cancelAnimationFrame(rafId);
+      initSapTrail();
+    }, 200);
+  });
+
+  /* ══════════════════════════════
+     FAN GALLERY (7-slot arc)
+     ══════════════════════════════ */
+  const layout = $('#fan-layout');
+  const cards = $$('.fan-card', layout);
+  const total = cards.length;
+  const MAX_VISIBLE = 7, HALF = 3;
+  const needsPagination = total > MAX_VISIBLE;
+  let center = needsPagination ? HALF : total >> 1;
+  const POS = [
+    { rot: -21, scale: .776, x: -30, y: 7.3, z: 1 },
+    { rot: -14, scale: .850, x: -22, y: 4.0, z: 2 },
+    { rot:  -7, scale: .935, x: -11, y: 1.3, z: 3 },
+    { rot:   0, scale: 1.00, x:   0, y: 0.0, z: 10 },
+    { rot:   7, scale: .935, x:  11, y: 1.3, z: 3 },
+    { rot:  14, scale: .850, x:  22, y: 4.0, z: 2 },
+    { rot:  21, scale: .776, x:  30, y: 7.3, z: 1 },
+  ];
+  function xMult(w) { return w < 480 ? .28 : w < 640 ? .38 : w < 768 ? .5 : w < 1024 ? .75 : 1; }
+  function yMult(w) {
+    let ideal = w < 480 ? 22*16 : w < 640 ? 26*16 : w < 768 ? 28*16 : w < 1024 ? 34*16 : 38*16;
+    const avail = innerHeight * .7;
+    return avail >= ideal ? 1 : avail / ideal;
+  }
+  function slotCfg(totalC, slot) {
+    if (totalC >= MAX_VISIBLE) return POS[slot];
+    const c = totalC >> 1;
+    const d = totalC > 1 ? (slot - c) / c : 0;
+    const ad = Math.abs(d);
+    return { rot: d * 21, scale: 1 - .2244 * ad * ad, x: d * 30, y: ad * ad * 7.3, z: 10 - Math.abs(slot - c) };
+  }
+  function getMap(c) {
+    const m = new Map();
+    if (!needsPagination) { cards.forEach((_, i) => m.set(i, i)); return m; }
+    for (let s = 0; s < MAX_VISIBLE; s++) m.set(((c + s - HALF) % total + total) % total, s);
+    return m;
+  }
+  let activeSlot = null;
+  function apply(el, x, y, rot, sc, z) {
+    el.style.transform = `translate(${x}rem, ${y}rem) rotate(${rot}deg) scale(${sc})`;
+    el.style.zIndex = z;
+  }
+  function drawFan(hovered = null) {
+    const map = getMap(center);
+    const mult = xMult(innerWidth), hM = yMult(innerWidth);
+    const slotCount = needsPagination ? MAX_VISIBLE : total;
+    const visible = [];
+    cards.forEach((el, i) => {
+      const slot = map.get(i);
+      if (slot === undefined) {
+        el.style.opacity = '0'; el.style.pointerEvents = 'none';
+        el.style.transform = 'translate(0,0) scale(0.4)'; el.style.zIndex = '0';
+      } else {
+        el.style.opacity = '1'; el.style.pointerEvents = 'auto';
+        visible.push({ el, slot });
+      }
+    });
+    const centerSlot = visible.length >> 1;
+    visible.forEach(({ el, slot }) => {
+      const base = slotCfg(slotCount, slot);
+      let x = base.x * mult, y = base.y * hM, rot = base.rot, sc = base.scale;
+      if (hovered !== null) {
+        if (slot === hovered) { y -= 2.5 * hM; sc *= 1.08; }
+        else {
+          const dist = Math.abs(slot - hovered);
+          const norm = centerSlot > 0 ? (slot - centerSlot) / centerSlot : 0;
+          const push = 8 * (1 - Math.abs(norm)) * (1 + .2 * Math.max(0, 3 - dist));
+          if (slot < hovered) { x -= push * mult; rot -= 3 / (dist + 1); }
+          else { x += push * mult; rot += 3 / (dist + 1); }
+        }
+      }
+      apply(el, x, y, rot, sc, base.z);
+    });
+    // Dots
+    const dotsWrap = $('#fan-dots');
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('span');
+      d.className = 'fan-dot' + (i === center ? ' active' : '');
+      dotsWrap.appendChild(d);
+    }
+  }
+  drawFan();
+  cards.forEach((el, i) => el.addEventListener('mouseenter', () => {
+    const slot = getMap(center).get(i);
+    if (slot === undefined) return;
+    activeSlot = slot; drawFan(slot);
+  }));
+  layout.addEventListener('mouseleave', () => { activeSlot = null; drawFan(null); });
+  $('#fan-prev').addEventListener('click', () => { if (!needsPagination) return; center = (center - 1 + total) % total; drawFan(activeSlot); });
+  $('#fan-next').addEventListener('click', () => { if (!needsPagination) return; center = (center + 1) % total; drawFan(activeSlot); });
+  let fanRT;
+  addEventListener('resize', () => { clearTimeout(fanRT); fanRT = setTimeout(() => drawFan(activeSlot), 120); });
+
+  /* ══════════════════════════════
+     CONTACT FORM
+     ══════════════════════════════ */
+  const form = $('#cform'), msg = $('#fmsg');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const d = new FormData(form);
+    const body = `Pr%C3%A9nom: ${encodeURIComponent(d.get('prenom'))}%0AEmail: ${encodeURIComponent(d.get('email'))}%0AT%C3%A9l: ${encodeURIComponent(d.get('tel') || '—')}%0AType: ${encodeURIComponent(d.get('type'))}%0A%0AProjet:%0A${encodeURIComponent(d.get('msg'))}`;
+    open(`mailto:sarameartdesign888@gmail.com?subject=Demande%20de%20projet%20%E2%80%94%20Sarame%20Art%20Design&body=${body}`, '_blank');
+    msg.classList.add('show'); form.reset();
+    setTimeout(() => msg.classList.remove('show'), 8000);
+  });
+})();
+</script>
+</body>
+</html>
