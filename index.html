@@ -586,6 +586,16 @@
       color: rgb(var(--muted-foreground));
     }
 
+  .story-team-photo{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
     /* ══════════════════════════════
        VALUES
        ══════════════════════════════ */
@@ -945,15 +955,21 @@
       </dl>
     </div>
     <div class="reveal">
-      <div class="story-visual wood-grain">
-        <div class="story-visual-frame"></div>
-        <span class="story-visual-badge">Visuel atelier à fournir</span>
-        <div class="story-visual-caption">
-          <p>« L'âme et l'histoire de la Guyane,<br>sculptées dans le bois. »</p>
-          <span>Art Saramaca · Kourou, Guyane française</span>
-        </div>
-      </div>
+  <div class="story-visual wood-grain">
+    <img
+      src="images/founders-team.jpg"
+      alt="L'équipe de Sarame Art Design"
+      class="story-team-photo"
+      loading="lazy"
+    >
+    <div class="story-visual-frame"></div>
+
+    <div class="story-visual-caption">
+      <p>« L'âme et l'histoire de la Guyane,<br>sculptées dans le bois. »</p>
+      <span>Art Saramaca · Kourou, Guyane française</span>
     </div>
+  </div>
+</div>
   </div>
 </section>
 
