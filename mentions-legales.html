@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mentions légales — Sarame Art Design</title>
+  <meta name="description" content="Mentions légales de Sarame Art Design, atelier d'ébénisterie d'art à Kourou, Guyane française.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://sarameartdesign.com/mentions-legales.html">
+
+  <!-- === Google Consent Mode v2 (défini AVANT gtag.js) === -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied', 'ad_user_data': 'denied', 'ad_personalization': 'denied',
+      'analytics_storage': 'denied', 'functionality_storage': 'denied', 'personalization_storage': 'denied',
+      'security_storage': 'granted', 'wait_for_update': 500
+    });
+    try {
+      var _c = localStorage.getItem('sarame_consent');
+      if (_c === 'granted') {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted', 'ad_user_data': 'granted', 'ad_personalization': 'granted',
+          'analytics_storage': 'granted', 'functionality_storage': 'granted', 'personalization_storage': 'granted'
+        });
+      }
+    } catch(e){}
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0V7GHJGMMJ"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-0V7GHJGMMJ', { anonymize_ip: true });
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --background: 27 19 13; --foreground: 242 230 210;
+      --primary: 222 201 159; --primary-foreground: 38 26 16;
+      --secondary: 146 102 64; --accent: 205 176 124; --accent-foreground: 38 26 16;
+      --muted: 58 42 28; --muted-foreground: 192 174 146;
+      --card: 36 25 16; --card-foreground: 242 230 210;
+      --border: 64 47 30; --ring: 222 201 159;
+      --font-serif: 'Playfair Display', serif; --font-sans: 'Inter', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; border-color: rgb(var(--border)); }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: rgb(var(--background)); color: rgb(var(--foreground));
+      font-family: var(--font-sans); font-weight: 300; line-height: 1.65;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; color: inherit; }
+
+    .skip {
+      position: absolute; top: -60px; left: 16px; z-index: 999;
+      background: rgb(var(--primary)); color: rgb(var(--primary-foreground));
+      padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: .85rem; transition: top .2s;
+    }
+    .skip:focus { top: 16px; }
+
+    .sarame-motif {
+      position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background-image: url("./sarame-motif.svg");
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+      opacity: .12; mix-blend-mode: screen;
+      -webkit-mask-image: radial-gradient(135% 115% at 50% 16%, rgba(0,0,0,.9), rgba(0,0,0,.35) 64%, rgba(0,0,0,.12));
+      mask-image: radial-gradient(135% 115% at 50% 16%, rgba(0,0,0,.9), rgba(0,0,0,.35) 64%, rgba(0,0,0,.12));
+    }
+    .bark-ambiance {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: url("./bark.svg");
+      background-size: 600px 760px; background-repeat: repeat;
+      opacity: .5; mix-blend-mode: soft-light;
+      -webkit-mask-image: radial-gradient(120% 60% at 50% -8%, rgba(0,0,0,.85), transparent 62%);
+      mask-image: radial-gradient(120% 60% at 50% -8%, rgba(0,0,0,.85), transparent 62%);
+    }
+
+    /* NAV */
+    header.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: all 500ms; background: rgba(27,19,13,.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgb(var(--border)); }
+    .nav-inner { max-width: 80rem; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 80px; }
+    .logo { display: flex; flex-direction: column; line-height: 1; }
+    .logo-name { font-family: var(--font-serif); font-style: italic; font-size: 1.25rem; color: rgb(var(--primary)); }
+    .logo-sub { font-size: 11px; text-transform: uppercase; letter-spacing: .28em; color: rgb(var(--muted-foreground)); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: .875rem; font-weight: 500; color: rgba(242,230,210,.7); transition: color 200ms; }
+    .nav-links a:hover { color: rgb(var(--primary)); }
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(to bottom, rgb(var(--primary)), rgb(var(--accent)));
+      color: rgb(var(--primary-foreground)); padding: 10px 20px; border-radius: 8px;
+      font-size: .875rem; font-weight: 600; box-shadow: inset 0 1px 1px rgba(255,255,255,.3);
+      border: 1px solid rgba(222,201,159,.3); transition: transform 200ms;
+    }
+    .btn-primary:hover { transform: scale(1.03); }
+    .hbg { display: none; flex-direction: column; gap: 5px; padding: 6px; z-index: 60; }
+    .hbg b { display: block; width: 22px; height: 1.5px; background: rgb(var(--foreground)); transition: all 200ms; }
+    .mob { display: none; position: fixed; inset: 0; z-index: 55; background: rgba(27,19,13,.97); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
+    .mob.open { display: flex; }
+    .mob a { font-family: var(--font-serif); font-size: 2rem; font-style: italic; color: rgb(var(--foreground)); transition: color 200ms; }
+    .mob a:hover { color: rgb(var(--primary)); }
+    .mob-x { position: absolute; top: 20px; right: 24px; font-size: 1.5rem; color: rgb(var(--muted-foreground)); }
+    @media (max-width: 768px) { .nav-links, header.nav .btn-primary { display: none; } .hbg { display: flex; } }
+
+    /* LEGAL CONTENT */
+    .legal-hero { padding: 160px 24px 40px; max-width: 48rem; margin: 0 auto; }
+    .legal-back { display: inline-flex; align-items: center; gap: 8px; font-size: .8125rem; color: rgb(var(--muted-foreground)); margin-bottom: 24px; transition: color 200ms; }
+    .legal-back:hover { color: rgb(var(--primary)); }
+    .legal-eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .24em; color: rgba(222,201,159,.8); }
+    .legal-title { margin-top: 12px; font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.875rem, 4vw, 2.75rem); line-height: 1.15; color: rgb(var(--foreground)); }
+    .legal-updated { margin-top: 12px; font-size: .8125rem; color: rgb(var(--muted-foreground)); }
+
+    .legal-body { max-width: 48rem; margin: 0 auto; padding: 0 24px 96px; }
+    .legal-body h2 { font-family: var(--font-serif); font-weight: 400; font-size: 1.4rem; color: rgb(var(--foreground)); margin-top: 44px; margin-bottom: 14px; }
+    .legal-body h2:first-child { margin-top: 0; }
+    .legal-body p { font-size: .95rem; color: rgba(242,230,210,.78); margin-bottom: 14px; }
+    .legal-body ul { margin: 0 0 14px 20px; }
+    .legal-body li { font-size: .95rem; color: rgba(242,230,210,.78); margin-bottom: 8px; }
+    .legal-body strong { color: rgb(var(--foreground)); font-weight: 500; }
+    .legal-body a { color: rgb(var(--primary)); text-decoration: underline; text-underline-offset: 3px; }
+    .legal-card {
+      background: rgba(36,25,16,.6); border: 1px solid rgb(var(--border)); border-radius: 14px;
+      padding: 24px; margin: 20px 0;
+    }
+    .legal-card dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; }
+    .legal-card dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: rgb(var(--muted-foreground)); white-space: nowrap; }
+    .legal-card dd { font-size: .9rem; color: rgb(var(--foreground)); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid rgb(var(--border)); background: rgb(var(--background)); }
+    .ft-inner { max-width: 72rem; margin: 0 auto; padding: 56px 24px; }
+    .ft-top { display: flex; flex-direction: column; gap: 40px; }
+    @media (min-width: 768px) { .ft-top { flex-direction: row; align-items: flex-start; justify-content: space-between; } }
+    .ft-brand { max-width: 24rem; }
+    .ft-brand-tag { margin-top: 16px; font-family: var(--font-serif); font-style: italic; color: rgba(242,230,210,.7); }
+    .ft-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .ft-cols h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .2em; color: rgb(var(--muted-foreground)); }
+    .ft-cols ul { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .ft-cols a { display: inline-flex; align-items: center; gap: 8px; font-size: .875rem; color: rgba(242,230,210,.7); transition: color 200ms; }
+    .ft-cols a:hover { color: rgb(var(--primary)); }
+    .ft-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgb(var(--border)); font-size: .75rem; color: rgb(var(--muted-foreground)); display: flex; flex-wrap: wrap; gap: 8px 20px; }
+
+    /* COOKIE BANNER */
+    .cookie-banner {
+      position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 40rem; margin: 0 auto; z-index: 100;
+      background: rgba(27,19,13,.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgb(var(--border)); border-radius: 16px; padding: 20px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.55); display: none; opacity: 0; transform: translateY(20px);
+      transition: opacity 400ms ease-out, transform 400ms ease-out;
+    }
+    .cookie-banner.show { display: block; }
+    .cookie-banner.in { opacity: 1; transform: none; }
+    .cookie-title { font-family: var(--font-serif); font-size: 1.05rem; color: rgb(var(--primary)); margin-bottom: 6px; }
+    .cookie-text { font-size: .82rem; color: rgba(242,230,210,.75); line-height: 1.55; margin-bottom: 14px; }
+    .cookie-text a { color: rgb(var(--primary)); text-decoration: underline; text-underline-offset: 3px; }
+    .cookie-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+    .cookie-btn { padding: 9px 18px; border-radius: 8px; font-family: var(--font-sans); font-size: .78rem; font-weight: 600; letter-spacing: .02em; cursor: pointer; transition: transform 150ms, background 150ms; }
+    .cookie-accept { background: linear-gradient(to bottom, rgb(var(--primary)), rgb(var(--accent))); color: rgb(var(--primary-foreground)); border: 1px solid rgba(222,201,159,.4); box-shadow: inset 0 1px 1px rgba(255,255,255,.3); }
+    .cookie-accept:hover { transform: scale(1.02); }
+    .cookie-refuse { background: rgba(36,25,16,.7); color: rgba(242,230,210,.85); border: 1px solid rgb(var(--border)); }
+    .cookie-refuse:hover { background: rgba(58,42,28,.9); }
+    @media (max-width: 520px) { .cookie-banner { bottom: 12px; left: 12px; right: 12px; padding: 16px 18px; } .cookie-btns { flex-direction: column; } .cookie-btn { width: 100%; text-align: center; } }
+
+    :focus-visible { outline: 2px solid rgb(var(--ring)); outline-offset: 3px; border-radius: 4px; }
+    ::selection { background: rgba(222,201,159,.85); color: rgb(var(--primary-foreground)); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip">Aller au contenu</a>
+<div aria-hidden="true" class="sarame-motif"></div>
+<div aria-hidden="true" class="bark-ambiance"></div>
+
+<header class="nav scrolled" id="nav" role="banner">
+  <nav class="nav-inner" aria-label="Navigation principale">
+    <a href="./index.html" class="logo" aria-label="Sarame Art Design — accueil">
+      <span class="logo-name">Sarame</span>
+      <span class="logo-sub">Art Design</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./index.html#creations">Créations</a></li>
+      <li><a href="./index.html#histoire">L'atelier</a></li>
+      <li><a href="./index.html#valeurs">Nos valeurs</a></li>
+      <li><a href="./index.html#faq">FAQ</a></li>
+    </ul>
+    <a href="./index.html#contact" class="btn-primary">Contact</a>
+    <button class="hbg" id="hbg" aria-label="Ouvrir le menu" aria-expanded="false"><b></b><b></b><b></b></button>
+  </nav>
+</header>
+
+<div class="mob" id="mob" role="dialog" aria-label="Menu">
+  <button class="mob-x" id="mobX" aria-label="Fermer le menu">✕</button>
+  <a href="./index.html#creations">Créations</a>
+  <a href="./index.html#histoire">L'atelier</a>
+  <a href="./index.html#valeurs">Nos valeurs</a>
+  <a href="./index.html#contact">Contact</a>
+</div>
+
+<main id="main">
+  <div class="legal-hero">
+    <a href="./index.html" class="legal-back">← Retour à l'accueil</a>
+    <span class="legal-eyebrow">Informations légales</span>
+    <h1 class="legal-title">Mentions légales</h1>
+    <p class="legal-updated">Dernière mise à jour : 2 août 2026</p>
+  </div>
+
+  <div class="legal-body">
+    <h2>Éditeur du site</h2>
+    <p>Le présent site est édité par <strong>Sarame Art Design</strong>, nom commercial de l'entreprise individuelle exploitée par <strong>M. Ludovic Main</strong>, entrepreneur individuel (auto-entrepreneur) immatriculé sous le régime de la micro-entreprise.</p>
+    <div class="legal-card">
+      <dl>
+        <dt>Nom commercial</dt><dd>Sarame Art Design</dd>
+        <dt>Exploitant</dt><dd>M. Ludovic Main, entrepreneur individuel</dd>
+        <dt>Forme juridique</dt><dd>Entreprise individuelle (auto-entrepreneur)</dd>
+        <dt>N° SIRET</dt><dd>938 205 812 00028</dd>
+        <dt>Adresse</dt><dd>9 rue Ferjus Antoinette, 97310 Kourou, Guyane française</dd>
+        <dt>Téléphone</dt><dd>+594 694 05 68 64</dd>
+        <dt>Email</dt><dd>sarameartdesign888@gmail.com</dd>
+        <dt>TVA</dt><dd>TVA non applicable — art. 293 B du Code général des impôts <em>(à confirmer selon le régime en vigueur)</em></dd>
+      </dl>
+    </div>
+
+    <h2>Directeur de la publication</h2>
+    <p>Le directeur de la publication du site est <strong>M. Ludovic Main</strong>, en sa qualité d'exploitant de l'entreprise individuelle Sarame Art Design.</p>
+
+    <h2>Hébergement du site</h2>
+    <p>Le site est hébergé par :</p>
+    <div class="legal-card">
+      <dl>
+        <dt>Société</dt><dd>Vercel Inc.</dd>
+        <dt>Adresse</dt><dd>440 N Barranca Ave #4133, Covina, CA 91723, États-Unis</dd>
+        <dt>Site web</dt><dd><a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a></dd>
+      </dl>
+    </div>
+    <p>Le nom de domaine <strong>sarameartdesign.com</strong> a été enregistré auprès de Squarespace Domains.</p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>L'ensemble des contenus présents sur ce site (textes, photographies des créations, logo, mise en page, charte graphique) est la propriété exclusive de Sarame Art Design, sauf mention contraire. Toute reproduction, représentation, modification ou diffusion, totale ou partielle, sans autorisation écrite préalable est interdite et constitutive d'une contrefaçon sanctionnée par les articles L.335-2 et suivants du Code de la propriété intellectuelle.</p>
+
+    <h2>Responsabilité</h2>
+    <p>Sarame Art Design s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site, mais ne peut garantir l'exhaustivité ou l'absence d'erreur. L'utilisateur reconnaît utiliser ces informations sous sa responsabilité exclusive. Sarame Art Design ne saurait être tenu responsable des dommages directs ou indirects résultant de l'accès ou de l'utilisation du site.</p>
+    <p>Les photographies de créations présentées sur le site illustrent des pièces uniques ; chaque commande sur-mesure fait l'objet d'un échange préalable et peut présenter des variations naturelles liées au bois travaillé.</p>
+
+    <h2>Liens hypertextes</h2>
+    <p>Ce site peut contenir des liens vers des sites tiers (notamment Instagram). Sarame Art Design n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.</p>
+
+    <h2>Droit applicable</h2>
+    <p>Les présentes mentions légales sont soumises au droit français. En cas de litige et à défaut d'accord amiable, les tribunaux français seront seuls compétents.</p>
+
+    <h2>Contact</h2>
+    <p>Pour toute question relative aux présentes mentions légales, vous pouvez nous écrire à <a href="mailto:sarameartdesign888@gmail.com">sarameartdesign888@gmail.com</a>.</p>
+
+    <p style="margin-top:32px"><a href="./politique-confidentialite.html">Politique de confidentialité</a> · <a href="./politique-cookies.html">Politique de cookies</a></p>
+  </div>
+</main>
+
+<div id="cookieBanner" class="cookie-banner" role="dialog" aria-labelledby="cookieTitle" aria-describedby="cookieText">
+  <div class="cookie-title" id="cookieTitle">🍪 Vos préférences de suivi</div>
+
+<footer>
+  <div class="ft-inner">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="./index.html" class="logo">
+          <span class="logo-name" style="font-size:1.5rem">Sarame Art Design</span>
+          <span class="logo-sub" style="margin-top:4px">Kourou, Guyane française</span>
+        </a>
+        <p class="ft-brand-tag">Le bois intérieur, l'harmonie dans votre demeure</p>
+      </div>
+      <div class="ft-cols">
+        <div>
+          <h3>Naviguer</h3>
+          <ul>
+            <li><a href="./index.html#creations">Créations</a></li>
+            <li><a href="./index.html#histoire">L'atelier</a></li>
+            <li><a href="./index.html#valeurs">Nos valeurs</a></li>
+            <li><a href="./index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Légal</h3>
+          <ul>
+            <li><a href="./mentions-legales.html">Mentions légales</a></li>
+            <li><a href="./politique-confidentialite.html">Confidentialité</a></li>
+            <li><a href="./politique-cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>© <span id="year"></span> Sarame Art Design — Tous droits réservés.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+  $('#year').textContent = new Date().getFullYear();
+
+  const hbg = $('#hbg'), mob = $('#mob'), mobX = $('#mobX');
+  const openMenu = () => { mob.classList.add('open'); hbg.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; };
+  const closeMenu = () => { mob.classList.remove('open'); hbg.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; };
+  hbg.addEventListener('click', openMenu);
+  mobX.addEventListener('click', closeMenu);
+  $$('.mob a').forEach(a => a.addEventListener('click', closeMenu));
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  const banner = document.getElementById('cookieBanner');
+  const stored = (() => { try { return localStorage.getItem('sarame_consent'); } catch(e) { return null; } })();
+  if (!stored && banner) { banner.classList.add('show'); requestAnimationFrame(() => banner.classList.add('in')); }
+  const setConsent = (granted) => {
+    try { localStorage.setItem('sarame_consent', granted ? 'granted' : 'denied'); } catch(e){}
+    if (typeof gtag === 'function') {
+      const state = granted ? 'granted' : 'denied';
+      gtag('consent', 'update', { 'ad_storage': state, 'ad_user_data': state, 'ad_personalization': state, 'analytics_storage': state, 'functionality_storage': state, 'personalization_storage': state });
+    }
+    if (banner) { banner.classList.remove('in'); setTimeout(() => banner.classList.remove('show'), 400); }
+  };
+  document.getElementById('cookieAccept')?.addEventListener('click', () => setConsent(true));
+  document.getElementById('cookieRefuse')?.addEventListener('click', () => setConsent(false));
+})();
+</script>
+
+  <p class="cookie-text" id="cookieText">Nous utilisons des cookies de mesure d'audience (Google Analytics) pour améliorer votre expérience. Aucun cookie publicitaire ni de suivi tiers. Vous pouvez accepter ou refuser à tout moment.</p>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-accept" id="cookieAccept">Accepter</button>
+    <button class="cookie-btn cookie-refuse" id="cookieRefuse">Refuser</button>
+  </div>
+</div>
+</body>
+</html>
