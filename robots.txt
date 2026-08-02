@@ -1,0 +1,24 @@
+# robots.txt · Sarame Art Design
+# Ébénisterie d'art & artisanat Saramaca — Kourou, Guyane française
+
+User-agent: *
+Allow: /
+
+# Autoriser explicitement les crawlers IA (GEO — citabilité par les IA)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Sitemap
+Sitemap: https://sarameartdesign.com/sitemap.xml
